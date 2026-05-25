@@ -15,12 +15,21 @@ export default function OtpPage() {
   const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
+  // For testing/preview, use query param or context
+  const testPhone = router.query.phone || phone;
+  const testEntryCode = router.query.entryCode || entryCode;
+  
   useEffect(() => {
-    if (!phone || !entryCode) {
-      router.replace('/register');
+    if (router.isReady) {
+      setIsReady(true);
+      const queryPhone = router.query.phone;
+      if (!queryPhone && !phone) {
+        router.replace('/register');
+      }
     }
-  }, [phone, entryCode, router]);
+  }, [router.isReady, router.query.phone, phone, router]);
 
   const handleOtpChange = (index, value) => {
     if (value.length > 1) return;
@@ -75,9 +84,11 @@ export default function OtpPage() {
   };
 
   // Show full phone number
-  const fullPhone = phone ? `+222 ${phone}` : '';
+  const displayPhone = testPhone || phone || '';
+  const fullPhone = displayPhone ? `+222 ${displayPhone}` : '';
 
-  if (!phone || !entryCode) return null;
+  if (!isReady) return null;
+  if (!testPhone && !phone) return null;
 
   return (
     <>
@@ -113,10 +124,12 @@ export default function OtpPage() {
 
               {/* Phone Icon */}
               <div className="text-center mb-6 md:mb-8">
-                <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border-4 border-primary-400 flex items-center justify-center">
-                    <svg className="w-7 h-7 md:w-8 md:h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                <div className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 md:mb-6 rounded-full bg-[#E8F5E9] flex items-center justify-center relative">
+                  <div className="absolute inset-2 rounded-full border-[3px] border-[#4CAF50]/30"></div>
+                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-full border-[3px] border-[#4CAF50] flex items-center justify-center bg-white/50">
+                    <svg className="w-8 h-8 md:w-9 md:h-9 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                      <rect x="7" y="2" width="10" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12" y2="18.01" strokeWidth={2} strokeLinecap="round" />
                     </svg>
                   </div>
                 </div>
