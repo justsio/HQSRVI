@@ -30,7 +30,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-cairo)', 'system-ui', 'sans-serif'],
+        sans: ['Cairo', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

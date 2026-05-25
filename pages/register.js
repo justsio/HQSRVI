@@ -136,13 +136,13 @@ export default function RegisterPage() {
                   height={60}
                   className="h-14 md:h-16 w-auto mx-auto mb-4 object-contain mix-blend-multiply"
                 />
-                <h1 className="text-xl md:text-2xl font-bold text-gray-900">{t('registration.submit')}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('registration.submit')}</h1>
               </div>
 
               <div className="space-y-5 md:space-y-6">
                 {/* Phone Input */}
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-800 mb-2 text-right">
                     {t('registration.phone_label')}
                   </label>
                   <div className="flex gap-2">
@@ -164,7 +164,7 @@ export default function RegisterPage() {
 
                 {/* Password - Click to show PIN pad */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-800 mb-2 text-right">
                     {t('registration.password_label')}
                   </label>
                   <button
