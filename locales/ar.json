@@ -26,7 +26,9 @@
     "password_label": "كلمة السر",
     "password_placeholder": "أدخل كلمة سر من 4 أرقام",
     "submit": "تسجيل الدخول",
-    "back": "رجوع"
+    "back": "رجوع",
+    "enter_pin_instruction": "أدخل رمزك السري للمتابعة",
+    "enter_phone_first": "أدخل رقم الهاتف أولاً"
   },
   "otp": {
     "title": "تأكيد العملية",
