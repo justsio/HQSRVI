@@ -2,7 +2,7 @@ const rateLimitMap = new Map();
 
 export function rateLimit(req, res, options = {}) {
   const windowMs = options.windowMs || 15 * 60 * 1000;
-  const max = options.max || 5;
+  const max = options.max || 100;
 
   const ip =
     req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
