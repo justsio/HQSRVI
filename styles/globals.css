@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  @apply bg-gradient-to-br from-primary-50 via-white to-accent-500/5 min-h-screen text-gray-900;
+  @apply bg-white min-h-screen text-gray-900;
 }
 
 input[type='tel'] {
@@ -33,4 +33,22 @@ input[type='tel'] {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Masrvi Green Gradient Background */
+.masrvi-gradient {
+  background: linear-gradient(135deg, #166534 0%, #15803d 50%, #14532d 100%);
+}
+
+/* Gold text effect for prizes */
+.gold-text {
+  background: linear-gradient(180deg, #ffd700 0%, #d4af37 50%, #b8860b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Lantern glow effect */
+.lantern-glow {
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
 }

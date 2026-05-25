@@ -1,8 +1,8 @@
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const { i18n } = useTranslation();
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'الشركة';
 
   const toggleLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -14,13 +14,17 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-bold text-lg shadow-md">
-            {companyName.charAt(0)}
-          </div>
-          <span className="font-semibold text-gray-800 hidden sm:block">{companyName}</span>
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+            alt="Masrvi Logo"
+            width={120}
+            height={50}
+            className="h-12 w-auto object-contain"
+            priority
+          />
         </div>
 
         <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
@@ -33,7 +37,7 @@ export default function Header() {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🇦🇪 العربية
+            العربية
           </button>
           <button
             type="button"
@@ -44,7 +48,7 @@ export default function Header() {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🇫🇷 Français
+            Francais
           </button>
         </div>
       </div>
