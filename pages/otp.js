@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
@@ -73,8 +74,8 @@ export default function OtpPage() {
     router.push('/register');
   };
 
-  // Mask phone number
-  const maskedPhone = phone ? `+222 ${phone.slice(0, 2)}******${phone.slice(-1)}` : '';
+  // Show full phone number
+  const fullPhone = phone ? `+222 ${phone}` : '';
 
   if (!phone || !entryCode) return null;
 
@@ -84,41 +85,49 @@ export default function OtpPage() {
         <title>MASRVI - {t('otp.title')}</title>
       </Head>
 
-      <main className="min-h-[calc(100vh-64px)] flex flex-col bg-gray-50">
+      <main className="min-h-screen flex flex-col bg-gradient-to-br from-primary-50 via-white to-primary-100">
         {/* Back Button */}
-        <div className="px-4 py-4">
+        <div className="px-4 py-3 md:py-4">
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-primary-700 transition-colors text-sm md:text-base"
           >
             <span className="rtl:rotate-180">&#10094;</span>
             <span>{t('registration.back')}</span>
           </Link>
         </div>
 
-        <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="flex-1 flex items-center justify-center px-4 py-4 md:py-8">
           <div className="w-full max-w-md">
-            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+            <div className="glass-card rounded-2xl md:rounded-3xl p-6 md:p-8">
+              {/* Logo */}
+              <div className="text-center mb-6">
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+                  alt="Masrvi Logo"
+                  width={120}
+                  height={48}
+                  className="h-12 w-auto mx-auto mb-4 object-contain mix-blend-multiply"
+                />
+              </div>
+
               {/* Phone Icon */}
-              <div className="text-center mb-8">
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full border-4 border-amber-400 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="text-center mb-6 md:mb-8">
+                <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border-4 border-primary-400 flex items-center justify-center">
+                    <svg className="w-7 h-7 md:w-8 md:h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
                   </div>
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('otp.title')}</h1>
-                <p className="text-gray-600 mb-2">{t('otp.subtitle')}</p>
-                <p className="text-gray-500 text-sm">
-                  Entrez le code a six chiffres que vous avez recu au:
-                </p>
-                <p className="text-primary-600 font-medium ltr-input">{maskedPhone}</p>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">{t('otp.title')}</h1>
+                <p className="text-gray-600 mb-2 text-sm md:text-base">{t('otp.subtitle')}</p>
+                <p className="text-primary-600 font-bold text-lg md:text-xl ltr-input">{fullPhone}</p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-8">
+              <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
                 {/* OTP Input Boxes */}
-                <div className="flex justify-center gap-3" dir="ltr">
+                <div className="flex justify-center gap-2 md:gap-3" dir="ltr">
                   {otpCode.map((digit, index) => (
                     <input
                       key={index}
@@ -129,7 +138,7 @@ export default function OtpPage() {
                       value={digit}
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(index, e)}
-                      className="w-12 h-14 text-center text-xl font-bold border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition bg-gray-50"
+                      className="w-10 h-12 md:w-12 md:h-14 text-center text-lg md:text-xl font-bold glass-input rounded-xl focus:outline-none transition"
                     />
                   ))}
                 </div>
@@ -138,7 +147,11 @@ export default function OtpPage() {
                   <button
                     type="submit"
                     disabled={loading || otpCode.join('').length !== 6}
-                    className="w-full py-4 bg-gray-400 hover:bg-primary-500 disabled:bg-gray-400 text-white font-bold rounded-2xl transition-all shadow-md text-lg"
+                    className={`w-full py-4 md:py-5 text-white font-bold rounded-2xl transition-all shadow-lg text-base md:text-lg ${
+                      otpCode.join('').length === 6
+                        ? 'bg-primary-500 hover:bg-primary-600'
+                        : 'bg-gray-400 cursor-not-allowed'
+                    }`}
                   >
                     {loading ? '...' : t('otp.verify')}
                   </button>
@@ -146,7 +159,7 @@ export default function OtpPage() {
                   <button
                     type="button"
                     onClick={() => router.push('/register')}
-                    className="w-full py-4 bg-white border border-gray-200 text-gray-700 font-bold rounded-2xl hover:bg-gray-50 transition-all text-lg"
+                    className="w-full py-4 md:py-5 glass-button text-gray-700 font-bold rounded-2xl hover:bg-white/90 transition-all text-base md:text-lg"
                   >
                     {t('otp.cancel')}
                   </button>

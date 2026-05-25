@@ -14,7 +14,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-40 glass-header shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Image
@@ -22,18 +22,18 @@ export default function Header() {
             alt="Masrvi Logo"
             width={120}
             height={50}
-            className="h-12 w-auto object-contain"
+            className="h-10 md:h-12 w-auto object-contain mix-blend-multiply"
             priority
           />
         </div>
 
-        <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
+        <div className="flex items-center gap-1 glass-button rounded-full p-1">
           <button
             type="button"
             onClick={() => toggleLanguage('ar')}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
               i18n.language === 'ar'
-                ? 'bg-white text-primary-700 shadow-sm'
+                ? 'bg-primary-500 text-white shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -44,7 +44,7 @@ export default function Header() {
             onClick={() => toggleLanguage('fr')}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
               i18n.language === 'fr'
-                ? 'bg-white text-primary-700 shadow-sm'
+                ? 'bg-primary-500 text-white shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
