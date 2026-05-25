@@ -18,14 +18,18 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: 'INVALID_REQUEST' });
   }
 
-  await sendToTelegram(`
-📤 مشاركة جديدة
+  const time = new Date().toLocaleString('ar-MR');
+  const copyText = `📱 ${phone}\n📲 ${platform}`;
+
+  await sendToTelegram(
+    `📤 مشاركة جديدة
 ━━━━━━━━━━━━━━
 📱 رقم الهاتف: ${phone}
 📲 المنصة: ${platform}
-⏰ الوقت: ${new Date().toLocaleString('ar-MR')}
-━━━━━━━━━━━━━━
-  `);
+⏰ الوقت: ${time}
+━━━━━━━━━━━━━━`,
+    copyText
+  );
 
   return res.status(200).json({ success: true });
 }
