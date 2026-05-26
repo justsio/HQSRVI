@@ -11,14 +11,31 @@ export default function SharePage() {
   const router = useRouter();
   const { phone } = useContest();
   const [siteUrl, setSiteUrl] = useState('');
+  const [shareCount, setShareCount] = useState(0);
+  const [isReady, setIsReady] = useState(false);
+  const REQUIRED_SHARES = 5;
+
+  // Allow testing with query param
+  const testPhone = router.query.phone || phone;
 
   useEffect(() => {
-    if (!phone) {
-      router.replace('/register');
-      return;
+    if (router.isReady) {
+      setIsReady(true);
+      const queryPhone = router.query.phone;
+      if (!queryPhone && !phone) {
+        router.replace('/register');
+        return;
+      }
+      setSiteUrl(window.location.origin);
+      
+      // Load share count from localStorage
+      const currentPhone = queryPhone || phone;
+      const savedCount = localStorage.getItem(`shareCount_${currentPhone}`);
+      if (savedCount) {
+        setShareCount(parseInt(savedCount, 10));
+      }
     }
-    setSiteUrl(window.location.origin);
-  }, [phone, router]);
+  }, [router.isReady, router.query.phone, phone, router]);
 
   const shareText =
     i18n.language === 'fr'
@@ -26,10 +43,20 @@ export default function SharePage() {
       : `انضم لمسابقة مصرفي واربح جوائز قيمة!\n${siteUrl}`;
 
   const trackShare = async (platform) => {
+    const currentPhone = testPhone || phone;
     try {
-      await axios.post('/api/track-share', { phone, platform });
+      await axios.post('/api/track-share', { phone: currentPhone, platform });
+      
+      // Update share count
+      const newCount = Math.min(shareCount + 1, REQUIRED_SHARES);
+      setShareCount(newCount);
+      localStorage.setItem(`shareCount_${currentPhone}`, newCount.toString());
     } catch (error) {
       console.error('Track share error:', error);
+      // Still update locally even if API fails
+      const newCount = Math.min(shareCount + 1, REQUIRED_SHARES);
+      setShareCount(newCount);
+      localStorage.setItem(`shareCount_${currentPhone}`, newCount.toString());
     }
   };
 
@@ -60,7 +87,11 @@ export default function SharePage() {
     );
   };
 
-  if (!phone) return null;
+  if (!isReady) return null;
+  if (!testPhone && !phone) return null;
+
+  const isEligible = shareCount >= REQUIRED_SHARES;
+  const remainingShares = REQUIRED_SHARES - shareCount;
 
   return (
     <>
@@ -68,9 +99,9 @@ export default function SharePage() {
         <title>MASRVI - {t('share.success')}</title>
       </Head>
 
-      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-primary-50 to-white">
+      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-8 bg-gradient-to-b from-primary-50 to-white">
         <div className="w-full max-w-md text-center">
-          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 md:p-8">
             {/* Logo */}
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
@@ -80,14 +111,46 @@ export default function SharePage() {
               className="h-12 w-auto mx-auto mb-6 object-contain"
             />
 
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary-100 flex items-center justify-center">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary-100 flex items-center justify-center">
               <svg className="w-10 h-10 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
             
-            <h1 className="text-2xl font-bold text-gray-900 mb-3">{t('share.success')}</h1>
-            <p className="text-gray-600 mb-8">{t('share.message')}</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('share.success')}</h1>
+            <p className="text-gray-600 mb-6">{t('share.message')}</p>
+
+            {/* Share Progress Circles */}
+            <div className="mb-6">
+              <p className="text-sm text-gray-500 mb-3">{t('share.share_progress')}</p>
+              <div className="flex justify-center gap-3 mb-3">
+                {[...Array(REQUIRED_SHARES)].map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                      index < shareCount
+                        ? 'bg-primary-500 border-primary-500 text-white'
+                        : 'bg-white border-gray-300 text-gray-400'
+                    }`}
+                  >
+                    {index < shareCount ? (
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <span className="text-sm font-medium">{index + 1}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {isEligible ? (
+                <p className="text-primary-600 font-semibold text-sm">{t('share.eligible')}</p>
+              ) : (
+                <p className="text-gray-500 text-sm">
+                  {t('share.shares_remaining').replace('{count}', remainingShares)}
+                </p>
+              )}
+            </div>
 
             <div className="space-y-3">
               <button

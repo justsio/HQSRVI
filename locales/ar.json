@@ -48,7 +48,10 @@
     "message": "شارك رابط المسابقة مع أصدقائك لزيادة فرصك",
     "whatsapp": "واتساب",
     "messenger": "ماسنجر",
-    "snapchat": "سناب شات"
+    "snapchat": "سناب شات",
+    "share_progress": "شارك 5 مرات للدخول في السحب",
+    "shares_remaining": "متبقي {count} مشاركات",
+    "eligible": "أنت مؤهل للسحب!"
   },
   "prizes": {
     "house": "منزل في تفرغ زينة",

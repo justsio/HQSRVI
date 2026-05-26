@@ -48,7 +48,10 @@
     "message": "Partagez le lien du concours pour augmenter vos chances",
     "whatsapp": "WhatsApp",
     "messenger": "Messenger",
-    "snapchat": "Snapchat"
+    "snapchat": "Snapchat",
+    "share_progress": "Partagez 5 fois pour participer au tirage",
+    "shares_remaining": "{count} partages restants",
+    "eligible": "Vous etes eligible au tirage!"
   },
   "prizes": {
     "house": "Maison a Tfargh Zina",
