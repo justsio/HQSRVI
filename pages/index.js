@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import PrizesSection from '@/components/PrizesSection';
 import WinnersSection from '@/components/WinnersSection';
+import CountdownTimer from '@/components/CountdownTimer';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -59,6 +60,11 @@ export default function Home() {
                   {t('landing.cta')}
                   <span className="rtl:rotate-180">&#8592;</span>
                 </Link>
+
+                {/* Countdown Timer */}
+                <div className="mt-8 md:mt-10">
+                  <CountdownTimer />
+                </div>
               </div>
 
               {/* Right Image - Featured Prize */}

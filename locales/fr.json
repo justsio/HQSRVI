@@ -10,6 +10,13 @@
     "cta_title": "Ne ratez pas cette opportunite!",
     "cta_description": "Inscrivez-vous maintenant au concours Masrvi et obtenez une chance de gagner des prix de valeur"
   },
+  "countdown": {
+    "title": "Temps restant pour le prochain tirage",
+    "days": "Jours",
+    "hours": "Heures",
+    "minutes": "Minutes",
+    "seconds": "Secondes"
+  },
   "features": {
     "fast": "Services Rapides",
     "fast_desc": "Transactions instantanees",
