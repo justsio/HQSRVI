@@ -113,13 +113,15 @@ export default function OtpPage() {
             <div className="glass-card rounded-2xl md:rounded-3xl p-6 md:p-8">
               {/* Logo */}
               <div className="text-center mb-6">
-                <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
-                  alt="Masrvi Logo"
-                  width={120}
-                  height={48}
-                  className="h-12 w-auto mx-auto mb-4 object-contain mix-blend-multiply"
-                />
+                <div className="bg-white rounded-2xl p-3 inline-block shadow-sm">
+                  <Image
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+                    alt="Masrvi Logo"
+                    width={120}
+                    height={48}
+                    className="h-12 w-auto object-contain"
+                  />
+                </div>
               </div>
 
               {/* Phone Icon */}
@@ -151,7 +153,8 @@ export default function OtpPage() {
                       value={digit}
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(index, e)}
-                      className="w-10 h-12 md:w-12 md:h-14 text-center text-lg md:text-xl font-bold glass-input rounded-xl focus:outline-none transition"
+                      className="w-11 h-14 md:w-14 md:h-16 text-center text-xl md:text-2xl font-bold bg-white border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-primary-400 transition flex items-center justify-center"
+                      style={{ textAlign: 'center', lineHeight: '1' }}
                     />
                   ))}
                 </div>

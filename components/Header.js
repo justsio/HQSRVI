@@ -17,14 +17,16 @@ export default function Header() {
     <header className="sticky top-0 z-40 glass-header shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
-            alt="Masrvi Logo"
-            width={120}
-            height={50}
-            className="h-10 md:h-12 w-auto object-contain mix-blend-multiply"
-            priority
-          />
+          <div className="bg-white rounded-xl p-2 shadow-sm">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+              alt="Masrvi Logo"
+              width={120}
+              height={50}
+              className="h-10 md:h-12 w-auto object-contain"
+              priority
+            />
+          </div>
         </div>
 
         <div className="flex items-center gap-1 glass-button rounded-full p-1">

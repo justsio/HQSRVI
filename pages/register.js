@@ -129,13 +129,15 @@ export default function RegisterPage() {
             <div className="glass-card rounded-2xl md:rounded-3xl p-6 md:p-8">
               {/* Logo */}
               <div className="text-center mb-6 md:mb-8">
-                <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
-                  alt="Masrvi Logo"
-                  width={150}
-                  height={60}
-                  className="h-14 md:h-16 w-auto mx-auto mb-4 object-contain mix-blend-multiply"
-                />
+                <div className="bg-white rounded-2xl p-3 inline-block shadow-sm mb-4">
+                  <Image
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+                    alt="Masrvi Logo"
+                    width={150}
+                    height={60}
+                    className="h-14 md:h-16 w-auto object-contain"
+                  />
+                </div>
                 <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('registration.submit')}</h1>
               </div>
 
