@@ -67,9 +67,12 @@ export default function PinKeypad({ value, onChange, maxLength = 4, instruction 
         </div>
         <button
           type="button"
-          onClick={shuffleNumbers}
+          onClick={() => {
+            onChange(''); // Clear the entered PIN
+            shuffleNumbers(); // Also reshuffle the numbers
+          }}
           className="p-1 text-gray-600 hover:text-primary-600 transition-colors"
-          aria-label="Shuffle numbers"
+          aria-label="Reset PIN"
         >
           <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M1 4v6h6M23 20v-6h-6" strokeLinecap="round" strokeLinejoin="round"/>
