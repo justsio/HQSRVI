@@ -31,11 +31,11 @@ export default function Home() {
               <div className="flex-1 text-center md:text-right">
                 <div className="inline-block mb-4 md:mb-6">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
                     alt="Masrvi Logo"
                     width={180}
                     height={72}
-                    className="h-14 md:h-20 w-auto object-contain bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-2 md:p-3"
+                    className="h-14 md:h-20 w-auto object-contain"
                     priority
                   />
                 </div>
@@ -133,7 +133,7 @@ export default function Home() {
         <footer className="bg-gray-900 text-white py-6 md:py-8 px-4">
           <div className="max-w-6xl mx-auto text-center">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
               alt="Masrvi Logo"
               width={100}
               height={40}

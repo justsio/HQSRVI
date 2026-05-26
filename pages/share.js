@@ -73,7 +73,7 @@ export default function SharePage() {
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
             {/* Logo */}
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
               alt="Masrvi Logo"
               width={120}
               height={50}

@@ -113,15 +113,13 @@ export default function OtpPage() {
             <div className="glass-card rounded-2xl md:rounded-3xl p-6 md:p-8">
               {/* Logo */}
               <div className="text-center mb-6">
-                <div className="bg-white rounded-2xl p-3 inline-block shadow-sm">
-                  <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424381_120-1uDefD1vhhxaUyEWoZbKOogvt8VlOX.jpg"
-                    alt="Masrvi Logo"
-                    width={120}
-                    height={48}
-                    className="h-12 w-auto object-contain"
-                  />
-                </div>
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
+                  alt="Masrvi Logo"
+                  width={120}
+                  height={48}
+                  className="h-12 w-auto mx-auto object-contain"
+                />
               </div>
 
               {/* Phone Icon */}
