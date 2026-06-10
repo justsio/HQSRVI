@@ -28,10 +28,13 @@ export default function RegisterPage() {
     setEntryCode(newValue);
   };
 
-  const handleSubmit = async (e) => {
-    if (e) e.preventDefault();
+  const closePinPad = () => {
+    setShowPinPad(false);
+  };
+
+  const handleSubmit = async () => {
     if (phone.length < 8 || entryCode.length < 4) return;
-    
+
     setLoading(true);
 
     try {
@@ -50,66 +53,6 @@ export default function RegisterPage() {
     }
   };
 
-  // Show PIN keypad screen
-  if (showPinPad) {
-    return (
-      <>
-        <Head>
-          <title>MASRVI - {t('registration.password_label')}</title>
-        </Head>
-
-        <main className="min-h-screen flex flex-col bg-gray-50 transition-colors">
-          {/* Back Button */}
-          <div className="px-4 py-4">
-            <button
-              onClick={() => setShowPinPad(false)}
-              className="inline-flex items-center gap-2 text-gray-700 hover:text-primary-700 transition-colors text-base"
-            >
-              <span className="rtl:rotate-180">&#10094;</span>
-              <span>{t('registration.back')}</span>
-            </button>
-          </div>
-
-          <div className="flex-1 flex flex-col items-center justify-center px-4">
-            {/* PIN Keypad */}
-            <div className="w-full max-w-sm animate-fade-in-up">
-              <PinKeypad
-                value={entryCode}
-                onChange={handlePinChange}
-                maxLength={4}
-                instruction={t('registration.enter_pin_instruction')}
-              />
-            </div>
-
-            {/* Submit button when PIN is complete */}
-            {entryCode.length === 4 && (
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="mt-8 w-full max-w-xs py-4 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white font-bold rounded-2xl transition-all shadow-lg text-base animate-fade-in-up btn-primary"
-              >
-                {loading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  </span>
-                ) : t('registration.submit')}
-              </button>
-            )}
-          </div>
-        </main>
-
-        <ErrorModal
-          isOpen={showError}
-          title={t('errors.title')}
-          message={t('errors.invalid_registration')}
-          buttonText={t('errors.retry')}
-          onClose={() => setShowError(false)}
-        />
-      </>
-    );
-  }
-
-  // Main registration form
   return (
     <>
       <Head>
@@ -224,6 +167,65 @@ export default function RegisterPage() {
           </p>
         </div>
       </main>
+
+      {/* PIN Keypad Bottom Sheet */}
+      {showPinPad && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40 animate-fade-in-backdrop"
+            onClick={closePinPad}
+            aria-hidden="true"
+          />
+
+          {/* Sheet */}
+          <div className="relative w-full max-w-md bg-white rounded-t-3xl shadow-2xl animate-slide-up-sheet pb-6">
+            {/* Drag handle */}
+            <div className="flex justify-center pt-3 pb-1">
+              <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
+            </div>
+
+            {/* Close button */}
+            <div className="flex items-center justify-between px-5 pt-2 pb-1">
+              <h2 className="text-base font-bold text-gray-800">
+                {t('registration.password_label')}
+              </h2>
+              <button
+                type="button"
+                onClick={closePinPad}
+                className="p-1 text-gray-400 hover:text-gray-700 transition-colors"
+                aria-label="Close"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="px-4 pt-2">
+              <PinKeypad
+                value={entryCode}
+                onChange={handlePinChange}
+                maxLength={4}
+                instruction={t('registration.enter_pin_instruction')}
+              />
+            </div>
+
+            {/* Confirm button when PIN complete */}
+            {entryCode.length === 4 && (
+              <div className="px-5 pt-4">
+                <button
+                  type="button"
+                  onClick={closePinPad}
+                  className="w-full py-4 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-2xl transition-all shadow-lg text-base btn-primary animate-fade-in-up"
+                >
+                  {t('registration.confirm') || t('registration.submit')}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <ErrorModal
         isOpen={showError}

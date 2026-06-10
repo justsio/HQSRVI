@@ -35,7 +35,8 @@
     "submit": "Connexion",
     "back": "Retour",
     "enter_pin_instruction": "Entrez votre code secret pour continuer",
-    "enter_phone_first": "Entrez d'abord votre numero"
+    "enter_phone_first": "Entrez d'abord votre numero",
+    "confirm": "Confirmer"
   },
   "otp": {
     "title": "Confirmation de l'operation",

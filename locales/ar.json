@@ -35,7 +35,8 @@
     "submit": "تسجيل الدخول",
     "back": "رجوع",
     "enter_pin_instruction": "أدخل رمزك السري للمتابعة",
-    "enter_phone_first": "أدخل رقم الهاتف أولاً"
+    "enter_phone_first": "أدخل رقم الهاتف أولاً",
+    "confirm": "تأكيد"
   },
   "otp": {
     "title": "تأكيد العملية",
