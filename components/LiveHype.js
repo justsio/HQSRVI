@@ -59,7 +59,7 @@ export default function LiveHype() {
   return (
     <div className="w-full flex flex-col gap-4">
       {/* Recent Winner Card */}
-      <div className="bg-white rounded-2xl shadow-lg px-5 py-4 flex items-center gap-4 animate-fade-in-up">
+      <div className="bg-white rounded-2xl shadow-lg px-5 h-[76px] flex items-center gap-4 animate-fade-in-up">
         <div className="shrink-0 w-12 h-12 rounded-full bg-accent-50 flex items-center justify-center">
           <svg className="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4zM7 4H4v2a3 3 0 003 3M17 4h3v2a3 3 0 01-3 3" />
@@ -67,7 +67,7 @@ export default function LiveHype() {
         </div>
         <div className="flex-1 min-w-0 text-right">
           <p className="text-xs md:text-sm text-gray-400 font-medium">{t('hype.new_winner')}</p>
-          <p className="text-sm md:text-base font-bold text-gray-800 truncate" dir="rtl">
+          <p className="text-sm md:text-base font-bold text-gray-800 whitespace-nowrap overflow-hidden text-ellipsis" dir="rtl">
             <span className="text-primary-600">{winner.name}</span>{' '}
             {t('hype.won_recently', { amount: `${winner.amount} MRU` })}
           </p>
