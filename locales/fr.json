@@ -18,8 +18,9 @@
     "seconds": "Secondes"
   },
   "hype": {
-    "new_winner": "Nouveau gagnant",
+    "new_winner": "Nouveau gagnant a l'instant",
     "won_recently": "a gagne {{amount}} il y a peu",
+    "won_amount": "a gagne {{amount}}",
     "active_now": "participants actifs",
     "share_title": "Partagez avec vos amis",
     "share_desc": "Augmentez vos chances en partageant le concours",
