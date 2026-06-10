@@ -18,7 +18,7 @@
     "seconds": "ثانية"
   },
   "hype": {
-    "new_winner": "فائز جديد من قليل",
+    "new_winner": "فائز جديد منذ قليل",
     "won_recently": "فاز بـ {{amount}} منذ قليل",
     "won_amount": "فاز بـ {{amount}}",
     "active_now": "مشارك نشط الآن",
