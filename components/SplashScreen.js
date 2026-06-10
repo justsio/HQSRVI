@@ -23,7 +23,7 @@ export default function SplashScreen({ onComplete }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-white via-primary-50 to-primary-100 transition-opacity duration-500 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
@@ -41,11 +41,11 @@ export default function SplashScreen({ onComplete }) {
 
       {/* Spinner */}
       <div className="relative">
-        <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
       </div>
 
       {/* Loading text */}
-      <p className="mt-6 text-white/80 text-sm animate-pulse">
+      <p className="mt-6 text-primary-700/80 text-sm animate-pulse">
         جاري التحميل...
       </p>
     </div>
