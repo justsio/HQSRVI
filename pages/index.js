@@ -94,29 +94,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-10 md:py-16 px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {[
-                { icon: '⚡', titleKey: 'features.fast', descKey: 'features.fast_desc' },
-                { icon: '🔒', titleKey: 'features.secure', descKey: 'features.secure_desc' },
-                { icon: '🎁', titleKey: 'features.exclusive', descKey: 'features.exclusive_desc' },
-                { icon: '📱', titleKey: 'features.app', descKey: 'features.app_desc' },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="glass-card rounded-2xl p-5 md:p-6 text-center card-hover"
-                >
-                  <span className="text-3xl md:text-4xl mb-3 block">{feature.icon}</span>
-                  <h3 className="font-bold text-primary-700 dark:text-primary-400 text-sm md:text-base">{t(feature.titleKey)}</h3>
-                  <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-2">{t(feature.descKey)}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <PrizesSection />
         <WinnersSection />
 
