@@ -28,31 +28,36 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Language Toggle */}
-          <div className="flex items-center gap-1 glass-button rounded-full p-1">
-            <button
-              type="button"
-              onClick={() => toggleLanguage('ar')}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                i18n.language === 'ar'
-                  ? 'bg-primary-500 text-white shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+          {/* Language Toggle - single icon button */}
+          <button
+            type="button"
+            onClick={() => toggleLanguage(i18n.language === 'ar' ? 'fr' : 'ar')}
+            aria-label={i18n.language === 'ar' ? 'Passer au francais' : 'التغيير إلى العربية'}
+            className="flex items-center gap-2 glass-button rounded-full pl-3 pr-4 py-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50 transition-all min-h-[44px]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
             >
-              العربية
-            </button>
-            <button
-              type="button"
-              onClick={() => toggleLanguage('fr')}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                i18n.language === 'fr'
-                  ? 'bg-primary-500 text-white shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Francais
-            </button>
-          </div>
+              <path d="m5 8 6 6" />
+              <path d="m4 14 6-6 2-3" />
+              <path d="M2 5h12" />
+              <path d="M7 2h1" />
+              <path d="m22 22-5-10-5 10" />
+              <path d="M14 18h6" />
+            </svg>
+            <span className="text-sm font-semibold">
+              {i18n.language === 'ar' ? 'Francais' : 'العربية'}
+            </span>
+          </button>
         </div>
       </div>
     </header>
