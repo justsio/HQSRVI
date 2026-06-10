@@ -5,15 +5,15 @@ export default function SplashScreen({ onComplete }) {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Start fade out after 2 seconds
+    // Start fade out shortly after mount
     const fadeTimer = setTimeout(() => {
       setFadeOut(true);
-    }, 2000);
+    }, 900);
 
     // Complete and remove splash after fade animation
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 2500);
+    }, 1200);
 
     return () => {
       clearTimeout(fadeTimer);
