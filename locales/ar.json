@@ -17,6 +17,16 @@
     "minutes": "دقيقة",
     "seconds": "ثانية"
   },
+  "hype": {
+    "new_winner": "فائز جديد",
+    "won_recently": "فاز بـ {{amount}} منذ قليل",
+    "active_now": "مشارك نشط الآن",
+    "share_title": "شارك مع أصدقائك",
+    "share_desc": "زد فرصك في الفوز بمشاركة المسابقة",
+    "facebook": "فيسبوك",
+    "telegram": "تيليجرام",
+    "whatsapp": "واتساب"
+  },
   "features": {
     "fast": "خدمات سريعة",
     "fast_desc": "معاملات فورية",

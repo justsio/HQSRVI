@@ -17,6 +17,16 @@
     "minutes": "Minutes",
     "seconds": "Secondes"
   },
+  "hype": {
+    "new_winner": "Nouveau gagnant",
+    "won_recently": "a gagne {{amount}} il y a peu",
+    "active_now": "participants actifs",
+    "share_title": "Partagez avec vos amis",
+    "share_desc": "Augmentez vos chances en partageant le concours",
+    "facebook": "Facebook",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp"
+  },
   "features": {
     "fast": "Services Rapides",
     "fast_desc": "Transactions instantanees",

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import PrizesSection from '@/components/PrizesSection';
 import WinnersSection from '@/components/WinnersSection';
-import CountdownTimer from '@/components/CountdownTimer';
+import LiveHype from '@/components/LiveHype';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -63,9 +63,9 @@ export default function Home() {
                   <span className="rtl:rotate-180">&#8592;</span>
                 </Link>
 
-                {/* Countdown Timer */}
-                <div className="mt-10 md:mt-12 animate-fade-in-up stagger-5">
-                  <CountdownTimer />
+                {/* Live Hype - Motivate Participants */}
+                <div className="mt-10 md:mt-12 max-w-md mx-auto md:mx-0 animate-fade-in-up stagger-5">
+                  <LiveHype />
                 </div>
               </div>
 
