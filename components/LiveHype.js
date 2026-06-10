@@ -106,7 +106,7 @@ export default function LiveHype() {
         <div className="grid grid-cols-3 gap-2 md:gap-3">
           <button
             type="button"
-            onClick={() => handleShare('whatsapp')}
+            onClick={(e) => handleShare('whatsapp', e)}
             className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#25D366] text-white text-sm font-semibold transition-transform active:scale-95 min-h-[44px]"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -116,7 +116,7 @@ export default function LiveHype() {
           </button>
           <button
             type="button"
-            onClick={() => handleShare('telegram')}
+            onClick={(e) => handleShare('telegram', e)}
             className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#229ED9] text-white text-sm font-semibold transition-transform active:scale-95 min-h-[44px]"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -126,7 +126,7 @@ export default function LiveHype() {
           </button>
           <button
             type="button"
-            onClick={() => handleShare('facebook')}
+            onClick={(e) => handleShare('facebook', e)}
             className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#1877F2] text-white text-sm font-semibold transition-transform active:scale-95 min-h-[44px]"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

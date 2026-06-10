@@ -8,6 +8,7 @@ import axios from 'axios';
 import ErrorModal from '@/components/ErrorModal';
 import PinKeypad from '@/components/PinKeypad';
 import { useContest } from '@/context/ContestContext';
+import { playSuccess } from '@/utils/sound';
 
 export default function RegisterPage() {
   const { t } = useTranslation();
@@ -41,6 +42,7 @@ export default function RegisterPage() {
       const { data } = await axios.post('/api/register', { phone, entryCode });
 
       if (data.success) {
+        playSuccess();
         updateRegistration(phone, entryCode);
         router.push('/otp');
       } else {
