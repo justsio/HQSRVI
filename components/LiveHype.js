@@ -75,22 +75,22 @@ export default function LiveHype() {
       </div>
 
       {/* Live Participant Counter */}
-      <div className="bg-white rounded-2xl shadow-lg px-5 py-5 flex items-center justify-center gap-4 animate-fade-in-up stagger-1">
+      <div className="bg-white rounded-2xl shadow-lg px-5 h-[96px] flex items-center justify-between gap-4 animate-fade-in-up stagger-1">
+        <span className="relative flex h-3 w-3 shrink-0">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+          <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
+        </span>
+        <div className="flex-1 text-center">
+          <p className="text-2xl md:text-3xl font-extrabold text-gray-800 tabular-nums leading-tight" dir="ltr">
+            {activeCount.toLocaleString('ar-EG')}
+          </p>
+          <p className="text-xs md:text-sm text-gray-400 font-medium">{t('hype.active_now')}</p>
+        </div>
         <div className="shrink-0 w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center">
           <svg className="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a3 3 0 10-2.5-4.66" />
           </svg>
         </div>
-        <div className="text-center">
-          <p className="text-2xl md:text-3xl font-extrabold text-gray-800 tabular-nums" dir="ltr">
-            {activeCount.toLocaleString('ar-EG')}
-          </p>
-          <p className="text-xs md:text-sm text-gray-400 font-medium">{t('hype.active_now')}</p>
-        </div>
-        <span className="relative flex h-3 w-3">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
-        </span>
       </div>
 
       {/* Share With Friends Card */}
