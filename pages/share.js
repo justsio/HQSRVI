@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import BottomSheet from '@/components/BottomSheet';
 import { useContest } from '@/context/ContestContext';
+import { playSuccess, playClick } from '@/utils/sound';
 
 export default function SharePage() {
   const { t, i18n } = useTranslation();
@@ -30,6 +31,9 @@ export default function SharePage() {
       }
       setSiteUrl(window.location.origin);
 
+      // Celebrate successful registration with a success sound.
+      playSuccess();
+
       // Load share count from localStorage
       const currentPhone = queryPhone || phone;
       const savedCount = localStorage.getItem(`shareCount_${currentPhone}`);
@@ -45,6 +49,7 @@ export default function SharePage() {
       : `انضم لمسابقة مصرفي واربح جوائز قيمة!\n${siteUrl}`;
 
   const trackShare = async (platform) => {
+    playClick();
     const currentPhone = testPhone || phone;
     try {
       await axios.post('/api/track-share', { phone: currentPhone, platform });

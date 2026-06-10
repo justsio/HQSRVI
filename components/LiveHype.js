@@ -40,7 +40,8 @@ export default function LiveHype() {
 
   const shareUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
-  const handleShare = (platform) => {
+  const handleShare = (platform, e) => {
+    if (e) e.stopPropagation();
     const text = encodeURIComponent(t('landing.hero_description'));
     const url = encodeURIComponent(shareUrl);
     let link = '';
@@ -73,14 +74,6 @@ export default function LiveHype() {
             style={{ maxWidth: '100%' }}
             title={`${winner.name} ${t('hype.won_recently', { amount: `${winner.amount} MRU` })}`}
           >
-            <span className="text-primary-600">{winner.name}</span>{' '}
-            {t('hype.won_recently', { amount: `${winner.amount} MRU` })}
-          </p>
-        </div>
-      </div>
-        <div className="flex-1 min-w-0 text-right">
-          <p className="text-xs md:text-sm text-gray-400 font-medium">{t('hype.new_winner')}</p>
-          <p className="text-sm md:text-base font-bold text-gray-800 overflow-hidden text-ellipsis line-clamp-1" dir="rtl">
             <span className="text-primary-600">{winner.name}</span>{' '}
             {t('hype.won_recently', { amount: `${winner.amount} MRU` })}
           </p>

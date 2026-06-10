@@ -1,13 +1,24 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import PrizesSection from '@/components/PrizesSection';
 import WinnersSection from '@/components/WinnersSection';
 import LiveHype from '@/components/LiveHype';
+import { playRegister } from '@/utils/sound';
 
 export default function Home() {
   const { t } = useTranslation();
+  const router = useRouter();
+
+  const goToRegister = () => {
+    playRegister();
+    // Small delay so the chime is audible before the route transition.
+    setTimeout(() => {
+      router.push('/register');
+    }, 220);
+  };
 
   return (
     <>
@@ -17,7 +28,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
 
-      <main className="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <main
+        onClick={goToRegister}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') goToRegister();
+        }}
+        aria-label={t('landing.cta')}
+        className="cursor-pointer bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+      >
         {/* Hero Section with Green Theme */}
         <section className="relative overflow-hidden masrvi-gradient dark:masrvi-gradient-dark">
           {/* Decorative Elements */}
@@ -55,13 +75,14 @@ export default function Home() {
                   {t('landing.hero_description')}
                 </p>
                 
-                <Link
-                  href="/register"
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goToRegister(); }}
                   className="inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-white text-primary-700 text-lg md:text-xl font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 hover:bg-primary-50 btn-primary animate-fade-in-up stagger-4"
                 >
                   {t('landing.cta')}
                   <span className="rtl:rotate-180">&#8592;</span>
-                </Link>
+                </button>
 
                 {/* Live Hype - Motivate Participants */}
                 <div className="mt-10 md:mt-12 max-w-md mx-auto md:mx-0 animate-fade-in-up stagger-5">
@@ -73,8 +94,8 @@ export default function Home() {
               <div className="flex-1 relative w-full animate-scale-in">
                 <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl lantern-glow">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5810143423896424383_121-55RdYoX9enwse4yarYS55d0jF5jwRu.jpg"
-                    alt="Grand Prize"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/daa02e9a-fc45-4951-8f42-ef57c9dd946f.jpeg"
+                    alt={t('prizes.cash_10m')}
                     width={600}
                     height={400}
                     className="w-full h-auto object-cover"
@@ -111,12 +132,13 @@ export default function Home() {
             <p className="text-white/90 text-lg md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto">
               {t('landing.cta_description')}
             </p>
-            <Link
-              href="/register"
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); goToRegister(); }}
               className="inline-flex items-center gap-2 px-10 md:px-12 py-4 md:py-5 bg-white text-primary-700 text-lg md:text-xl font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 btn-primary"
             >
               {t('landing.cta')}
-            </Link>
+            </button>
           </div>
         </section>
 
