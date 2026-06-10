@@ -55,9 +55,9 @@ export default function Home() {
                   <Image
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
                     alt="Masrvi Logo"
-                    width={280}
-                    height={112}
-                    className="h-20 md:h-28 w-auto object-contain"
+                    width={420}
+                    height={168}
+                    className="h-32 md:h-44 w-auto object-contain"
                     priority
                   />
                 </div>

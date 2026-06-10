@@ -81,9 +81,9 @@ export default function RegisterPage() {
                 <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
                   alt="Masrvi Logo"
-                  width={180}
-                  height={72}
-                  className="h-16 md:h-20 w-auto mx-auto mb-4 object-contain"
+                  width={300}
+                  height={120}
+                  className="h-28 md:h-32 w-auto mx-auto mb-4 object-contain"
                 />
                 <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('registration.submit')}</h1>
               </div>
