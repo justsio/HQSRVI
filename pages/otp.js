@@ -1,26 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import ErrorModal from '@/components/ErrorModal';
+import BottomSheet from '@/components/BottomSheet';
+import LoadingTransition from '@/components/LoadingTransition';
 import { useContest } from '@/context/ContestContext';
+
+const OTP_LENGTH = 6;
+// Set to true to use brand green instead of black for the active confirm button
+const USE_BRAND_GREEN = false;
 
 export default function OtpPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const { phone, entryCode, clearRegistration } = useContest();
-  const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
+  const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
+  const inputRef = useRef(null);
 
   // For testing/preview, use query param or context
   const testPhone = router.query.phone || phone;
-  const testEntryCode = router.query.entryCode || entryCode;
-  
+
   useEffect(() => {
     if (router.isReady) {
       setIsReady(true);
@@ -31,49 +37,45 @@ export default function OtpPage() {
     }
   }, [router.isReady, router.query.phone, phone, router]);
 
-  const handleOtpChange = (index, value) => {
-    if (value.length > 1) return;
-    const newOtp = [...otpCode];
-    newOtp[index] = value.replace(/\D/g, '');
-    setOtpCode(newOtp);
-
-    // Auto-focus next input
-    if (value && index < 5) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      nextInput?.focus();
+  // Auto-focus the hidden input on mount to trigger the native numeric keyboard
+  useEffect(() => {
+    if (isReady) {
+      const timer = setTimeout(() => inputRef.current?.focus(), 450);
+      return () => clearTimeout(timer);
     }
+  }, [isReady]);
+
+  const handleInputChange = (e) => {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, OTP_LENGTH);
+    setOtp(digits);
   };
 
-  const handleKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !otpCode[index] && index > 0) {
-      const prevInput = document.getElementById(`otp-${index - 1}`);
-      prevInput?.focus();
-    }
-  };
+  const focusInput = () => inputRef.current?.focus();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const code = otpCode.join('');
-    if (code.length !== 6) return;
-
+  const handleSubmit = async () => {
+    if (otp.length !== OTP_LENGTH || loading) return;
     setLoading(true);
 
     try {
       const { data } = await axios.post('/api/verify-otp', {
         phone,
         entryCode,
-        otpCode: code,
+        otpCode: otp,
       });
 
       if (data.success) {
-        router.push('/share');
+        // Native-app style loading splash before next step
+        setTransitioning(true);
+        setTimeout(() => {
+          router.push('/share');
+        }, 700);
       } else {
+        setLoading(false);
         setShowError(true);
       }
     } catch {
-      setShowError(true);
-    } finally {
       setLoading(false);
+      setShowError(true);
     }
   };
 
@@ -86,9 +88,12 @@ export default function OtpPage() {
   // Show full phone number
   const displayPhone = testPhone || phone || '';
   const fullPhone = displayPhone ? `+222 ${displayPhone}` : '';
+  const isComplete = otp.length === OTP_LENGTH;
 
   if (!isReady) return null;
   if (!testPhone && !phone) return null;
+
+  const activeBtnColor = USE_BRAND_GREEN ? '#1db488' : '#111111';
 
   return (
     <>
@@ -96,93 +101,125 @@ export default function OtpPage() {
         <title>MASRVI - {t('otp.title')}</title>
       </Head>
 
-      <main className="min-h-screen flex flex-col bg-gradient-to-br from-primary-50 via-white to-primary-100">
-        {/* Back Button */}
-        <div className="px-4 py-3 md:py-4">
-          <Link
-            href="/register"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-primary-700 transition-colors text-sm md:text-base"
-          >
-            <span className="rtl:rotate-180">&#10094;</span>
-            <span>{t('registration.back')}</span>
-          </Link>
-        </div>
+      <main className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100" />
 
-        <div className="flex-1 flex items-center justify-center px-4 py-4 md:py-8">
-          <div className="w-full max-w-md">
-            <div className="glass-card rounded-2xl md:rounded-3xl p-6 md:p-8">
-              {/* Logo */}
-              <div className="text-center mb-6">
-                <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
-                  alt="Masrvi Logo"
-                  width={120}
-                  height={48}
-                  className="h-12 w-auto mx-auto object-contain"
-                />
+      <AnimatePresence>
+        {transitioning && <LoadingTransition key="loading" />}
+      </AnimatePresence>
+
+      {!transitioning && (
+        <BottomSheet backHref="/register" backLabel={t('registration.back')}>
+          <div className="flex flex-col items-center text-center pt-2">
+            {/* Animated orange phone/arc icon */}
+            <motion.div
+              className="relative w-20 h-20 mb-5 flex items-center justify-center"
+              animate={{ scale: [1, 1.06, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <span className="absolute inset-0 rounded-full bg-orange-100" />
+              <span className="absolute inset-1.5 rounded-full border-[3px] border-orange-300/60" />
+              <svg
+                className="relative w-9 h-9 text-orange-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={1.8}
+              >
+                <rect x="7" y="2" width="10" height="20" rx="2.5" ry="2.5" />
+                <line x1="12" y1="18" x2="12" y2="18.01" strokeWidth={2.5} strokeLinecap="round" />
+              </svg>
+            </motion.div>
+
+            {/* Title + subtitles */}
+            <h1 className="text-2xl font-bold text-gray-900 mb-3">{t('otp.title')}</h1>
+            <p className="text-gray-500 text-sm mb-1">{t('otp.subtitle')}</p>
+            <p className="text-gray-900 font-bold text-base ltr-input mb-8" dir="ltr">
+              {fullPhone}
+            </p>
+
+            {/* Floating OTP cells */}
+            <div
+              className="relative w-full max-w-xs mb-10"
+              onClick={focusInput}
+            >
+              {/* Invisible input that drives the cells */}
+              <input
+                ref={inputRef}
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={OTP_LENGTH}
+                value={otp}
+                onChange={handleInputChange}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                aria-label={t('otp.placeholder')}
+              />
+              <div className="flex justify-center gap-2.5" dir="ltr">
+                {[...Array(OTP_LENGTH)].map((_, i) => {
+                  const filled = i < otp.length;
+                  const isCurrent = i === otp.length;
+                  return (
+                    <div
+                      key={i}
+                      className={`flex items-center justify-center bg-white rounded-[14px] transition-all ${
+                        isCurrent ? 'ring-2 ring-primary-400' : ''
+                      }`}
+                      style={{
+                        width: '48px',
+                        height: '56px',
+                        boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
+                      }}
+                    >
+                      <AnimatePresence mode="wait">
+                        {filled && (
+                          <motion.span
+                            key={otp[i]}
+                            initial={{ scale: 0.4, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 0.15 }}
+                            className="text-2xl font-bold text-gray-900"
+                          >
+                            {otp[i]}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
               </div>
-
-              {/* Phone Icon */}
-              <div className="text-center mb-6 md:mb-8">
-                <div className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 md:mb-6 rounded-full bg-[#E8F5E9] flex items-center justify-center relative">
-                  <div className="absolute inset-2 rounded-full border-[3px] border-[#4CAF50]/30"></div>
-                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-full border-[3px] border-[#4CAF50] flex items-center justify-center bg-white/50">
-                    <svg className="w-8 h-8 md:w-9 md:h-9 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                      <rect x="7" y="2" width="10" height="20" rx="2" ry="2" />
-                      <line x1="12" y1="18" x2="12" y2="18.01" strokeWidth={2} strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </div>
-                <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">{t('otp.title')}</h1>
-                <p className="text-gray-600 mb-2 text-sm md:text-base">{t('otp.subtitle')}</p>
-                <p className="text-primary-600 font-bold text-lg md:text-xl ltr-input">{fullPhone}</p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
-                {/* OTP Input Boxes */}
-                <div className="flex justify-center gap-2 md:gap-3" dir="ltr">
-                  {otpCode.map((digit, index) => (
-                    <input
-                      key={index}
-                      id={`otp-${index}`}
-                      type="tel"
-                      inputMode="numeric"
-                      maxLength={1}
-                      value={digit}
-                      onChange={(e) => handleOtpChange(index, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(index, e)}
-                      className="w-11 h-14 md:w-14 md:h-16 text-center text-xl md:text-2xl font-bold bg-white border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-primary-400 transition flex items-center justify-center"
-                      style={{ textAlign: 'center', lineHeight: '1' }}
-                    />
-                  ))}
-                </div>
-
-                <div className="space-y-3">
-                  <button
-                    type="submit"
-                    disabled={loading || otpCode.join('').length !== 6}
-                    className={`w-full py-4 md:py-5 text-white font-bold rounded-2xl transition-all shadow-lg text-base md:text-lg ${
-                      otpCode.join('').length === 6
-                        ? 'bg-primary-500 hover:bg-primary-600'
-                        : 'bg-gray-400 cursor-not-allowed'
-                    }`}
-                  >
-                    {loading ? '...' : t('otp.verify')}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => router.push('/register')}
-                    className="w-full py-4 md:py-5 glass-button text-gray-700 font-bold rounded-2xl hover:bg-white/90 transition-all text-base md:text-lg"
-                  >
-                    {t('otp.cancel')}
-                  </button>
-                </div>
-              </form>
             </div>
+
+            {/* Confirm button (state machine) */}
+            <motion.button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!isComplete || loading}
+              animate={{
+                backgroundColor: isComplete ? activeBtnColor : '#BDBDBD',
+              }}
+              transition={{ duration: 0.2 }}
+              className={`w-full max-w-xs py-4 rounded-full text-white font-bold text-base flex items-center justify-center gap-2 ${
+                isComplete && !loading ? 'shadow-lg cursor-pointer' : 'cursor-not-allowed'
+              }`}
+            >
+              {loading ? (
+                <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                t('otp.verify')
+              )}
+            </motion.button>
+
+            {/* Cancel text button */}
+            <button
+              type="button"
+              onClick={() => router.push('/register')}
+              className="mt-4 text-gray-500 hover:text-gray-700 font-medium text-sm transition-colors"
+            >
+              {t('otp.cancel')}
+            </button>
           </div>
-        </div>
-      </main>
+        </BottomSheet>
+      )}
 
       <ErrorModal
         isOpen={showError}

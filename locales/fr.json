@@ -40,7 +40,7 @@
   },
   "otp": {
     "title": "Confirmation de l'operation",
-    "subtitle": "Entrez le code envoye a votre telephone",
+    "subtitle": "Entrez le code envoye par SMS",
     "placeholder": "Entrez le code a 6 chiffres",
     "verify": "Confirmer",
     "cancel": "Annuler"
