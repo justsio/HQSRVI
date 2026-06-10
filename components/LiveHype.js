@@ -76,16 +76,6 @@ export default function LiveHype() {
           </p>
         </div>
       </div>
-        <div className="flex-1 min-w-0 text-right">
-          <p className="text-xs md:text-sm text-white/70 font-medium truncate">{t('hype.new_winner')}</p>
-          <p className="text-base md:text-lg font-bold text-white truncate" dir="rtl" title={winner.name}>
-            {winner.name}
-          </p>
-          <p className="text-sm md:text-base font-semibold text-white/90 truncate" dir="rtl">
-            {t('hype.won_amount', { amount: `${winner.amount} MRU` })}
-          </p>
-        </div>
-      </div>
 
       {/* Live Participant Counter */}
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg px-5 h-[96px] flex items-center justify-between gap-4 animate-fade-in-up stagger-1">
