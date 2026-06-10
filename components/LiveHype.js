@@ -60,49 +60,49 @@ export default function LiveHype() {
   return (
     <div className="w-full min-w-0 flex flex-col gap-4">
       {/* Recent Winner Card */}
-      <div className="bg-white rounded-2xl shadow-lg px-5 h-[76px] max-w-full overflow-hidden flex items-center gap-4 animate-fade-in-up">
-        <div className="shrink-0 w-12 h-12 rounded-full bg-accent-50 flex items-center justify-center">
-          <svg className="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg px-5 h-[76px] max-w-full overflow-hidden flex items-center gap-4 animate-fade-in-up">
+        <div className="shrink-0 w-12 h-12 rounded-full bg-white/15 border border-white/20 flex items-center justify-center">
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4zM7 4H4v2a3 3 0 003 3M17 4h3v2a3 3 0 01-3 3" />
           </svg>
         </div>
         <div className="flex-1 min-w-0 text-right">
-          <p className="text-xs md:text-sm text-gray-400 font-medium">{t('hype.new_winner')}</p>
+          <p className="text-xs md:text-sm text-white/70 font-medium">{t('hype.new_winner')}</p>
           <p
-            className="text-sm md:text-base font-bold text-gray-800 truncate"
+            className="text-sm md:text-base font-bold text-white truncate"
             dir="rtl"
             style={{ maxWidth: '100%' }}
             title={`${winner.name} ${t('hype.won_recently', { amount: `${winner.amount} MRU` })}`}
           >
-            <span className="text-primary-600">{winner.name}</span>{' '}
+            <span className="text-white">{winner.name}</span>{' '}
             {t('hype.won_recently', { amount: `${winner.amount} MRU` })}
           </p>
         </div>
       </div>
 
       {/* Live Participant Counter */}
-      <div className="bg-white rounded-2xl shadow-lg px-5 h-[96px] flex items-center justify-between gap-4 animate-fade-in-up stagger-1">
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg px-5 h-[96px] flex items-center justify-between gap-4 animate-fade-in-up stagger-1">
         <span className="relative flex h-3 w-3 shrink-0">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-300 opacity-75" />
+          <span className="relative inline-flex h-3 w-3 rounded-full bg-green-300" />
         </span>
         <div className="flex-1 text-center">
-          <p className="text-2xl md:text-3xl font-extrabold text-gray-800 tabular-nums leading-tight" dir="ltr">
+          <p className="text-2xl md:text-3xl font-extrabold text-white tabular-nums leading-tight" dir="ltr">
             {activeCount.toLocaleString('ar-EG')}
           </p>
-          <p className="text-xs md:text-sm text-gray-400 font-medium">{t('hype.active_now')}</p>
+          <p className="text-xs md:text-sm text-white/70 font-medium">{t('hype.active_now')}</p>
         </div>
-        <div className="shrink-0 w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center">
-          <svg className="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+        <div className="shrink-0 w-12 h-12 rounded-full bg-white/15 border border-white/20 flex items-center justify-center">
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a3 3 0 10-2.5-4.66" />
           </svg>
         </div>
       </div>
 
       {/* Share With Friends Card */}
-      <div className="bg-white rounded-2xl shadow-lg px-5 py-5 animate-fade-in-up stagger-2">
-        <h3 className="text-base md:text-lg font-bold text-gray-800 text-right mb-1">{t('hype.share_title')}</h3>
-        <p className="text-xs md:text-sm text-gray-400 text-right mb-4">{t('hype.share_desc')}</p>
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg px-5 py-5 animate-fade-in-up stagger-2">
+        <h3 className="text-base md:text-lg font-bold text-white text-right mb-1">{t('hype.share_title')}</h3>
+        <p className="text-xs md:text-sm text-white/70 text-right mb-4">{t('hype.share_desc')}</p>
         <div className="grid grid-cols-3 gap-2 md:gap-3">
           <button
             type="button"
