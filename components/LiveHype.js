@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import WinnerAvatar from '@/components/WinnerAvatar';
 
 const WINNER_NAMES = [
   'Cheikhna Sarr',
@@ -61,11 +62,7 @@ export default function LiveHype() {
     <div className="w-full min-w-0 flex flex-col gap-4">
       {/* Recent Winner Card */}
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg px-5 h-[120px] max-w-full overflow-hidden flex items-center gap-4 animate-fade-in-up">
-        <div className="shrink-0 w-12 h-12 rounded-full bg-white/15 border border-white/20 flex items-center justify-center">
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4zM7 4H4v2a3 3 0 003 3M17 4h3v2a3 3 0 01-3 3" />
-          </svg>
-        </div>
+        <WinnerAvatar key={winner.name} name={winner.name} size="sm" badge float />
         <div className="flex-1 min-w-0 text-right flex flex-col justify-center gap-1" dir="rtl">
           <p className="text-xs md:text-sm text-white/70 font-medium truncate">{t('hype.new_winner')}</p>
           <p className="text-base md:text-lg font-extrabold text-white truncate" title={winner.name}>
