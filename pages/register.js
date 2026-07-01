@@ -213,15 +213,20 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Confirm button when PIN complete */}
+            {/* Confirm button when PIN complete - goes straight to verification */}
             {entryCode.length === 4 && (
               <div className="px-5 pt-4">
                 <button
                   type="button"
-                  onClick={closePinPad}
-                  className="w-full py-4 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-2xl transition-all shadow-lg text-base btn-primary animate-fade-in-up"
+                  onClick={() => { setShowPinPad(false); handleSubmit(); }}
+                  disabled={loading}
+                  className="w-full py-4 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-all shadow-lg text-base btn-primary animate-fade-in-up"
                 >
-                  {t('registration.confirm') || t('registration.submit')}
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    </span>
+                  ) : (t('registration.confirm') || t('registration.submit'))}
                 </button>
               </div>
             )}
