@@ -6,7 +6,6 @@ import PrizesSection from '@/components/PrizesSection';
 import WinnersSection from '@/components/WinnersSection';
 import LiveHype from '@/components/LiveHype';
 import Countdown from '@/components/Countdown';
-import HowItWorks from '@/components/HowItWorks';
 import StatsBar from '@/components/StatsBar';
 import Features from '@/components/Features';
 import { playRegister } from '@/utils/sound';
@@ -149,9 +148,6 @@ export default function Home() {
 
         {/* Social Proof Stats */}
         <StatsBar />
-
-        {/* How It Works */}
-        <HowItWorks />
 
         <PrizesSection />
         <Features />

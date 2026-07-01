@@ -103,6 +103,9 @@
     "hilux": "5 Toyota Hilux 2023",
     "corolla": "6 Toyota Corolla 2024",
     "iphone": "50 iPhone 17 Pro Max",
+    "hilux_one": "Toyota Hilux 2023",
+    "corolla_one": "Toyota Corolla 2024",
+    "iphone_one": "iPhone 17 Pro Max",
     "grand": "Grand Prix",
     "secondary": "Prix Secondaire"
   },
