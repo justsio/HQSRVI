@@ -111,43 +111,12 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Password - Click to show PIN pad */}
-                <div className="animate-fade-in-up stagger-2">
-                  <label className="block text-sm font-semibold text-gray-800 mb-2 text-right">
-                    {t('registration.password_label')}
-                  </label>
+                {/* Submit Button - opens PIN pad to set password */}
+                <div className="pt-2 md:pt-4 animate-fade-in-up stagger-2">
                   <button
                     type="button"
                     onClick={() => phone.length >= 8 && setShowPinPad(true)}
-                    disabled={phone.length < 8}
-                    className="w-full px-4 py-3 md:py-4 glass-input rounded-xl text-right flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-primary-400"
-                  >
-                    <span className="flex gap-2">
-                      {entryCode ? (
-                        [...Array(4)].map((_, i) => (
-                          <span
-                            key={i}
-                            className={`w-3 h-3 rounded-full transition-colors ${
-                              i < entryCode.length ? 'bg-primary-500' : 'bg-gray-300'
-                            }`}
-                          />
-                        ))
-                      ) : (
-                        <span className="text-gray-400 text-sm">{phone.length < 8 ? t('registration.enter_phone_first') : ''}</span>
-                      )}
-                    </span>
-                    <svg className="w-5 h-5 text-gray-400 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-2 md:pt-4 animate-fade-in-up stagger-3">
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={loading || phone.length < 8 || entryCode.length < 4}
+                    disabled={loading || phone.length < 8}
                     className="w-full py-4 md:py-5 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-all shadow-lg text-base md:text-lg btn-primary"
                   >
                     {loading ? (
