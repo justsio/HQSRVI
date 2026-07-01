@@ -58,7 +58,7 @@ export default function RegisterPage() {
   return (
     <>
       <Head>
-        <title>MASRVI - {t('registration.submit')}</title>
+        <title>{`MASRVI - ${t('registration.submit')}`}</title>
       </Head>
 
       <main className="min-h-screen flex flex-col bg-gradient-to-br from-primary-50 via-white to-primary-100 transition-colors">

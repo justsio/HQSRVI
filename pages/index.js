@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>MASRVI - {t('landing.title')}</title>
+        <title>{`MASRVI - ${t('landing.title')}`}</title>
         <meta name="description" content={t('landing.subtitle')} />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>

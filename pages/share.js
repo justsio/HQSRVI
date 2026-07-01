@@ -103,7 +103,7 @@ export default function SharePage() {
   return (
     <>
       <Head>
-        <title>MASRVI - {t('share.success')}</title>
+        <title>{`MASRVI - ${t('share.success')}`}</title>
       </Head>
 
       <main className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100" />

@@ -98,7 +98,7 @@ export default function OtpPage() {
   return (
     <>
       <Head>
-        <title>MASRVI - {t('otp.title')}</title>
+        <title>{`MASRVI - ${t('otp.title')}`}</title>
       </Head>
 
       <main className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100" />
