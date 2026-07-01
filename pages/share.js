@@ -9,6 +9,35 @@ import BottomSheet from '@/components/BottomSheet';
 import { useContest } from '@/context/ContestContext';
 import { playSuccess, playClick } from '@/utils/sound';
 
+const PRIZE_PREVIEW = [
+  { key: 'house', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/0ddad2a6-2c60-41a2-a657-1da45818408a.jpeg', tier: 'grand' },
+  { key: 'cash_5m', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1426895a-e3d6-48bd-a932-056dbc6ec4a8.jpeg', tier: 'secondary' },
+  { key: 'hilux_one', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a4def850-fc60-47c2-81b2-10a2f9b01bf5.jpeg', tier: 'secondary' },
+  { key: 'corolla_one', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cdda7ca0-f4b5-4c5c-bb25-03478401849b.jpeg', tier: 'secondary' },
+  { key: 'iphone_one', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/d4b028ca-b75a-411c-ac11-ed2073594ec0.jpeg', tier: 'secondary' },
+];
+
+// Next draw: upcoming Friday 21:00 local.
+function getNextDraw() {
+  const now = new Date();
+  const target = new Date(now);
+  const diff = (5 - now.getDay() + 7) % 7;
+  target.setDate(now.getDate() + diff);
+  target.setHours(21, 0, 0, 0);
+  if (target.getTime() <= now.getTime()) target.setDate(target.getDate() + 7);
+  return target;
+}
+
+function getRemaining(target) {
+  const total = Math.max(0, target.getTime() - Date.now());
+  return {
+    days: Math.floor(total / 86400000),
+    hours: Math.floor((total / 3600000) % 24),
+    minutes: Math.floor((total / 60000) % 60),
+    seconds: Math.floor((total / 1000) % 60),
+  };
+}
+
 export default function SharePage() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
@@ -16,9 +45,10 @@ export default function SharePage() {
   const [siteUrl, setSiteUrl] = useState('');
   const [shareCount, setShareCount] = useState(0);
   const [isReady, setIsReady] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const REQUIRED_SHARES = 5;
 
-  // Allow testing with query param
   const testPhone = router.query.phone || phone;
 
   useEffect(() => {
@@ -30,18 +60,20 @@ export default function SharePage() {
         return;
       }
       setSiteUrl(window.location.origin);
-
-      // Celebrate successful registration with a success sound.
       playSuccess();
 
-      // Load share count from localStorage
       const currentPhone = queryPhone || phone;
       const savedCount = localStorage.getItem(`shareCount_${currentPhone}`);
-      if (savedCount) {
-        setShareCount(parseInt(savedCount, 10));
-      }
+      if (savedCount) setShareCount(parseInt(savedCount, 10));
     }
   }, [router.isReady, router.query.phone, phone, router]);
+
+  useEffect(() => {
+    const target = getNextDraw();
+    setTime(getRemaining(target));
+    const interval = setInterval(() => setTime(getRemaining(target)), 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const shareText =
     i18n.language === 'fr'
@@ -51,47 +83,39 @@ export default function SharePage() {
   const trackShare = async (platform) => {
     playClick();
     const currentPhone = testPhone || phone;
+    const newCount = Math.min(shareCount + 1, REQUIRED_SHARES);
+    setShareCount(newCount);
+    localStorage.setItem(`shareCount_${currentPhone}`, newCount.toString());
     try {
       await axios.post('/api/track-share', { phone: currentPhone, platform });
-
-      // Update share count
-      const newCount = Math.min(shareCount + 1, REQUIRED_SHARES);
-      setShareCount(newCount);
-      localStorage.setItem(`shareCount_${currentPhone}`, newCount.toString());
     } catch (error) {
       console.error('Track share error:', error);
-      // Still update locally even if API fails
-      const newCount = Math.min(shareCount + 1, REQUIRED_SHARES);
-      setShareCount(newCount);
-      localStorage.setItem(`shareCount_${currentPhone}`, newCount.toString());
     }
   };
 
   const handleWhatsApp = () => {
     trackShare('WhatsApp');
-    window.open(
-      `https://wa.me/?text=${encodeURIComponent(shareText)}`,
-      '_blank',
-      'noopener,noreferrer'
-    );
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank', 'noopener,noreferrer');
   };
-
   const handleMessenger = () => {
     trackShare('Messenger');
-    window.open(
-      `fb-messenger://share?link=${encodeURIComponent(siteUrl)}`,
-      '_blank',
-      'noopener,noreferrer'
-    );
+    window.open(`fb-messenger://share?link=${encodeURIComponent(siteUrl)}`, '_blank', 'noopener,noreferrer');
   };
-
   const handleSnapchat = () => {
     trackShare('Snapchat');
-    window.open(
-      `https://www.snapchat.com/scan?attachmentUrl=${encodeURIComponent(siteUrl)}`,
-      '_blank',
-      'noopener,noreferrer'
-    );
+    window.open(`https://www.snapchat.com/scan?attachmentUrl=${encodeURIComponent(siteUrl)}`, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleCopy = async () => {
+    playClick();
+    try {
+      await navigator.clipboard.writeText(siteUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      trackShare('CopyLink');
+    } catch (e) {
+      console.error('Copy failed', e);
+    }
   };
 
   if (!isReady) return null;
@@ -99,6 +123,42 @@ export default function SharePage() {
 
   const isEligible = shareCount >= REQUIRED_SHARES;
   const remainingShares = REQUIRED_SHARES - shareCount;
+
+  const timeUnits = [
+    { value: time.days, label: t('countdown.days') },
+    { value: time.hours, label: t('countdown.hours') },
+    { value: time.minutes, label: t('countdown.minutes') },
+    { value: time.seconds, label: t('countdown.seconds') },
+  ];
+
+  const events = [
+    { icon: 'live', title: t('share.event_live_title'), desc: t('share.event_live_desc'), tag: t('share.event_live_tag'), tagColor: 'bg-red-500' },
+    { icon: 'gala', title: t('share.event_gala_title'), desc: t('share.event_gala_desc'), tag: t('share.event_gala_tag'), tagColor: 'bg-primary-600' },
+    { icon: 'double', title: t('share.event_double_title'), desc: t('share.event_double_desc'), tag: t('share.event_double_tag'), tagColor: 'bg-accent-500' },
+  ];
+
+  const eventIcon = (type) => {
+    if (type === 'live') {
+      return (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.55-2.28A1 1 0 0121 8.62v6.76a1 1 0 01-1.45.9L15 14M5 8h8a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4a2 2 0 012-2z" />
+        </svg>
+      );
+    }
+    if (type === 'gala') {
+      return (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7 5H4v2a3 3 0 003 3M17 5h3v2a3 3 0 01-3 3" />
+        </svg>
+      );
+    }
+    return (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    );
+  };
 
   return (
     <>
@@ -109,14 +169,14 @@ export default function SharePage() {
       <main className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100" />
 
       <BottomSheet backHref="/" backLabel={t('registration.back')}>
-        <div className="flex flex-col items-center text-center pt-2">
+        <div className="flex flex-col items-center text-center pt-2 pb-6">
           {/* Logo */}
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
             alt="Masrvi Logo"
             width={120}
             height={50}
-            className="h-12 w-auto mb-6 object-contain"
+            className="h-12 w-auto mb-5 object-contain"
           />
 
           {/* Success check */}
@@ -131,20 +191,116 @@ export default function SharePage() {
             </svg>
           </motion.div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('share.success')}</h1>
-          <p className="text-gray-600 mb-6">{t('share.message')}</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2 text-balance">{t('share.success')}</h1>
+          <p className="text-gray-600 mb-6 text-pretty">{t('share.message')}</p>
 
-          {/* Share Progress Circles */}
-          <div className="mb-6 w-full">
+          {/* Countdown to next draw */}
+          <div className="w-full rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-4 mb-6 shadow-lg">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-400 opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent-400" />
+              </span>
+              <p className="text-sm font-semibold text-white/90">{t('share.next_draw')}</p>
+            </div>
+            <div className="grid grid-cols-4 gap-2" dir="ltr">
+              {timeUnits.map((unit) => (
+                <div key={unit.label} className="bg-white/10 border border-white/20 rounded-xl py-2.5 flex flex-col items-center">
+                  <span className="text-xl md:text-2xl font-extrabold text-white tabular-nums leading-none">
+                    {String(unit.value).padStart(2, '0')}
+                  </span>
+                  <span className="mt-1 text-[10px] font-medium text-white/70">{unit.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats strip */}
+          <div className="w-full grid grid-cols-3 gap-2 mb-6">
+            {[
+              { value: '+250K', label: t('share.stat_participants') },
+              { value: '15Mrd', label: t('share.stat_prizes') },
+              { value: '+1200', label: t('share.stat_winners') },
+            ].map((s) => (
+              <div key={s.label} className="glass-card rounded-xl py-3 px-1">
+                <p className="text-base md:text-lg font-extrabold text-primary-600 leading-tight">{s.value}</p>
+                <p className="text-[11px] text-gray-500 mt-0.5">{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Prizes reminder carousel */}
+          <div className="w-full mb-6 text-right rtl:text-right">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h2 className="text-base font-bold text-gray-900">{t('share.prizes_reminder')}</h2>
+                <p className="text-xs text-gray-500">{t('share.prizes_reminder_desc')}</p>
+              </div>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x" style={{ scrollbarWidth: 'none' }}>
+              {PRIZE_PREVIEW.map((prize) => (
+                <div key={prize.key} className="shrink-0 w-40 snap-start glass-card rounded-2xl overflow-hidden">
+                  <div className="relative aspect-[4/3]">
+                    <Image src={prize.image} alt={t(`prizes.${prize.key}`)} fill className="object-cover" sizes="160px" />
+                    <span className={`absolute top-2 ${i18n.dir() === 'rtl' ? 'right-2' : 'left-2'} px-2 py-0.5 rounded-full text-white text-[10px] font-bold shadow ${prize.tier === 'grand' ? 'bg-primary-600' : 'bg-accent-500'}`}>
+                      {prize.tier === 'grand' ? t('prizes.grand') : t('prizes.secondary')}
+                    </span>
+                  </div>
+                  <p className="text-xs font-semibold text-gray-800 p-2 text-center leading-snug">{t(`prizes.${prize.key}`)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Events section */}
+          <div className="w-full mb-6">
+            <div className="text-right rtl:text-right mb-3">
+              <h2 className="text-base font-bold text-gray-900">{t('share.events_title')}</h2>
+              <p className="text-xs text-gray-500">{t('share.events_desc')}</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              {events.map((ev) => (
+                <div key={ev.title} className="glass-card rounded-2xl p-3 flex items-center gap-3 text-right">
+                  <div className="shrink-0 w-11 h-11 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center">
+                    {eventIcon(ev.icon)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 justify-start">
+                      <p className="font-bold text-gray-900 text-sm truncate">{ev.title}</p>
+                      <span className={`shrink-0 px-2 py-0.5 rounded-full text-white text-[10px] font-bold ${ev.tagColor}`}>{ev.tag}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-snug">{ev.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Invite banner */}
+          <div className="w-full mb-6 rounded-2xl bg-gradient-to-br from-accent-500 to-accent-600 p-4 text-right shadow-lg">
+            <h2 className="text-base font-bold text-white mb-1">{t('share.invite_title')}</h2>
+            <p className="text-xs text-white/90 mb-3 leading-snug">{t('share.invite_desc')}</p>
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="w-full py-3 bg-white/15 hover:bg-white/25 border border-white/30 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              {copied ? t('share.copied') : t('share.copy_link')}
+            </button>
+          </div>
+
+          {/* Share Progress */}
+          <div className="mb-5 w-full">
             <p className="text-sm text-gray-500 mb-3">{t('share.share_progress')}</p>
             <div className="flex justify-center gap-3 mb-3">
               {[...Array(REQUIRED_SHARES)].map((_, index) => (
                 <div
                   key={index}
                   className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    index < shareCount
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-white text-gray-400'
+                    index < shareCount ? 'bg-primary-500 text-white' : 'bg-white text-gray-400'
                   }`}
                   style={{ boxShadow: '0 4px 10px rgba(0,0,0,0.08)' }}
                 >
@@ -161,12 +317,11 @@ export default function SharePage() {
             {isEligible ? (
               <p className="text-primary-600 font-semibold text-sm">{t('share.eligible')}</p>
             ) : (
-              <p className="text-gray-500 text-sm">
-                {t('share.shares_remaining').replace('{count}', remainingShares)}
-              </p>
+              <p className="text-gray-500 text-sm">{t('share.shares_remaining').replace('{count}', remainingShares)}</p>
             )}
           </div>
 
+          {/* Share buttons */}
           <div className="w-full flex flex-col gap-3">
             <button
               type="button"
