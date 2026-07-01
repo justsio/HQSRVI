@@ -8,6 +8,7 @@ import LiveHype from '@/components/LiveHype';
 import Countdown from '@/components/Countdown';
 import StatsBar from '@/components/StatsBar';
 import Features from '@/components/Features';
+import WinnerNotifications from '@/components/WinnerNotifications';
 import { playRegister } from '@/utils/sound';
 
 export default function Home() {
@@ -38,8 +39,10 @@ export default function Home() {
           if (e.key === 'Enter' || e.key === ' ') goToRegister();
         }}
         aria-label={t('landing.cta')}
-        className="cursor-pointer bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+        className="cursor-pointer bg-gray-50 dark:bg-gray-900 transition-colors duration-300 pb-24"
       >
+        {/* Live winner notifications with sound */}
+        <WinnerNotifications />
         {/* Hero Section - Premium Emerald Theme */}
         <section className="relative overflow-hidden masrvi-hero dark:masrvi-hero-dark">
           {/* Floating decorative orbs */}
@@ -199,6 +202,20 @@ export default function Home() {
             </p>
           </div>
         </footer>
+
+        {/* Sticky Register CTA */}
+        <div className="fixed bottom-0 inset-x-0 z-50 p-3 bg-gradient-to-t from-gray-900/10 to-transparent pointer-events-none">
+          <div className="max-w-md mx-auto pointer-events-auto">
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); goToRegister(); }}
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary-600 text-white text-lg font-bold rounded-2xl shadow-2xl hover:bg-primary-700 transition-all btn-primary"
+            >
+              {t('landing.cta')}
+              <span className="rtl:rotate-180">&#8592;</span>
+            </button>
+          </div>
+        </div>
       </main>
     </>
   );

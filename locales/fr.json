@@ -41,6 +41,11 @@
     "free": "Inscription entierement gratuite",
     "instant": "Participation instantanee au tirage"
   },
+  "notify": {
+    "title": "Nouveau gagnant maintenant!",
+    "won": "a gagne {{amount}}",
+    "sound_on": "Activer le son"
+  },
   "hype": {
     "new_winner": "Nouveau gagnant a l'instant",
     "won_recently": "a gagne {{amount}} il y a peu",

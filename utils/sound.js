@@ -36,6 +36,12 @@ export function playClick() {
   tone({ freq: 660, type: 'triangle', duration: 0.12, gain: 0.15 });
 }
 
+// Gentle two-note "ding" for a new-winner notification.
+export function playNotify() {
+  tone({ freq: 880, type: 'sine', start: 0, duration: 0.14, gain: 0.12 });
+  tone({ freq: 1174.66, type: 'sine', start: 0.09, duration: 0.2, gain: 0.13 });
+}
+
 // Cheerful ascending chime that signals "let's register / you won".
 export function playRegister() {
   tone({ freq: 523.25, type: 'triangle', start: 0, duration: 0.16, gain: 0.16 }); // C5
