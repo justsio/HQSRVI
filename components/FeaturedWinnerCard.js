@@ -52,8 +52,8 @@ export default function FeaturedWinnerCard({ prizeKey, names = [], index = 0 }) 
 
       {/* Unified trophy icon */}
       <div className="relative flex justify-center mb-4">
-        <div className="w-20 h-20 rounded-full bg-white/15 border border-white/25 backdrop-blur-sm flex items-center justify-center shadow-lg animate-float">
-          <svg className="w-10 h-10 text-accent-300" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
+        <div className="w-12 h-12 rounded-full bg-white/15 border border-white/25 backdrop-blur-sm flex items-center justify-center shadow-lg animate-float">
+          <svg className="w-6 h-6 text-accent-300" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4z" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M7 5H4v2a3 3 0 003 3M17 5h3v2a3 3 0 01-3 3" />
           </svg>
