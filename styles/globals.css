@@ -171,6 +171,44 @@ input[type='tel'] {
   background: linear-gradient(135deg, #0e4a39 0%, #136b52 50%, #082b21 100%);
 }
 
+/* Premium hero: layered radial glows over a deep emerald gradient */
+.masrvi-hero {
+  background:
+    radial-gradient(1100px 620px at 12% 8%, rgba(45, 227, 160, 0.38), transparent 60%),
+    radial-gradient(900px 520px at 88% 92%, rgba(16, 120, 88, 0.45), transparent 55%),
+    radial-gradient(700px 700px at 78% 6%, rgba(212, 175, 55, 0.14), transparent 60%),
+    linear-gradient(160deg, #062f24 0%, #0c5741 42%, #12855d 100%);
+}
+
+.masrvi-hero-dark {
+  background:
+    radial-gradient(1000px 600px at 12% 8%, rgba(29, 201, 138, 0.22), transparent 60%),
+    radial-gradient(900px 520px at 88% 92%, rgba(10, 70, 52, 0.6), transparent 55%),
+    linear-gradient(160deg, #041d16 0%, #073024 45%, #0a4634 100%);
+}
+
+/* Floating glow orbs */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+.animate-float { animation: floatY 6s ease-in-out infinite; }
+.animate-float-slow { animation: floatY 9s ease-in-out infinite; }
+
+/* Soft attention pulse for urgency elements */
+@keyframes softPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-soft-pulse { animation: softPulse 2s ease-in-out infinite; }
+
+/* Countdown flip-in */
+@keyframes popIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop-in { animation: popIn 0.4s ease-out forwards; }
+
 /* Gold text effect for prizes */
 .gold-text {
   background: linear-gradient(180deg, #ffd700 0%, #d4af37 50%, #b8860b 100%);

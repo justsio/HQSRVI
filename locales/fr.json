@@ -12,10 +12,34 @@
   },
   "countdown": {
     "title": "Temps restant pour le prochain tirage",
+    "subtitle": "Inscrivez-vous avant la fin du compte a rebours pour participer au tirage",
     "days": "Jours",
     "hours": "Heures",
     "minutes": "Minutes",
     "seconds": "Secondes"
+  },
+  "howitworks": {
+    "title": "Comment participer?",
+    "subtitle": "Trois etapes simples vous separent du prix",
+    "step1_title": "Inscrivez-vous",
+    "step1_desc": "Entrez vos informations en moins d'une minute",
+    "step2_title": "Partagez le concours",
+    "step2_desc": "Partagez le lien avec vos amis pour multiplier vos chances",
+    "step3_title": "Gagnez le prix",
+    "step3_desc": "Participez au tirage et gagnez des prix de valeur"
+  },
+  "stats": {
+    "title": "Des chiffres qui parlent",
+    "participants": "Participants",
+    "prizes": "Valeur des prix",
+    "winners": "Gagnants chanceux",
+    "satisfaction": "Satisfaction"
+  },
+  "urgency": {
+    "badge": "Offre limitee — inscrivez-vous avant la fin",
+    "trusted": "Plateforme de confiance par BMCI",
+    "free": "Inscription entierement gratuite",
+    "instant": "Participation instantanee au tirage"
   },
   "hype": {
     "new_winner": "Nouveau gagnant a l'instant",
