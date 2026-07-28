@@ -125,7 +125,7 @@ export default function Home() {
               <div className="flex-1 relative w-full animate-scale-in">
                 <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl lantern-glow">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/daa02e9a-fc45-4951-8f42-ef57c9dd946f.jpeg"
+                    src="/images/prize-cash-10m.jpg"
                     alt={t('prizes.cash_10m')}
                     width={600}
                     height={400}
