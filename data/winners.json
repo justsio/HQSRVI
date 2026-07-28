@@ -1,4 +1,29 @@
 [
+  { "prizeKey": "house", "featured": true, "names": [
+    { "name": "Sidi Mohamed Ould Ely", "phone_masked": "412***07" },
+    { "name": "Brahim Ould Ahmedou", "phone_masked": "227***63" },
+    { "name": "Khadijetou Mint Baba", "phone_masked": "395***18" }
+  ] },
+  { "prizeKey": "cash_5m", "featured": true, "names": [
+    { "name": "Aïchetou Mint Ahmed", "phone_masked": "338***52" },
+    { "name": "Yacoub Ould Cheikh", "phone_masked": "204***77" },
+    { "name": "Mariem Mint Sidi", "phone_masked": "466***31" }
+  ] },
+  { "prizeKey": "hilux_one", "featured": true, "names": [
+    { "name": "Mohamed Vall Ould", "phone_masked": "205***93" },
+    { "name": "Abdallahi Ould Sidi", "phone_masked": "371***49" },
+    { "name": "Selma Mint Mohamed", "phone_masked": "418***25" }
+  ] },
+  { "prizeKey": "corolla_one", "featured": true, "names": [
+    { "name": "Fatimetou Mint Sidi", "phone_masked": "471***28" },
+    { "name": "Cheikh Tijani Bah", "phone_masked": "233***84" },
+    { "name": "Zeinabou Mint Ely", "phone_masked": "390***56" }
+  ] },
+  { "prizeKey": "iphone_one", "featured": true, "names": [
+    { "name": "Cheikhna Ould Baba", "phone_masked": "396***41" },
+    { "name": "Aminetou Mint Sow", "phone_masked": "217***68" },
+    { "name": "Hamady Ba", "phone_masked": "455***12" }
+  ] },
   { "name": "Mohamedou Ould", "phone_masked": "362***91", "prize": "1,250 MRU" },
   { "name": "Fatimetou Mint", "phone_masked": "240***55", "prize": "1,980 MRU" },
   { "name": "Cheikhna Sarr", "phone_masked": "417***03", "prize": "5,000 MRU" },

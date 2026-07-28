@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,jsx}',
     './components/**/*.{js,jsx}',
@@ -8,24 +9,35 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#fef7ee',
-          100: '#fdecd6',
-          200: '#fad5ac',
-          300: '#f6b778',
-          400: '#f19041',
-          500: '#ed7420',
-          600: '#de5916',
-          700: '#b84314',
-          800: '#933618',
-          900: '#772f17',
+          50: '#e6f9f3',
+          100: '#c2f0e1',
+          200: '#8ee3c8',
+          300: '#5ad5ae',
+          400: '#2dc795',
+          500: '#1db488',
+          600: '#178f6c',
+          700: '#136b52',
+          800: '#0e4a39',
+          900: '#082b21',
         },
         accent: {
-          500: '#1e40af',
-          600: '#1d4ed8',
+          400: '#2dd4bf',
+          500: '#14b8a6',
+          600: '#0d9488',
         },
+        masrvi: {
+          green: '#1db488',
+          dark: '#1a2744',
+        },
+      },
+      fontFamily: {
+        sans: ['Cairo', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin': 'spin 1s linear infinite',
+        'bounce': 'bounce 1s infinite',
       },
       keyframes: {
         fadeIn: {

@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import WinnerAvatar from '@/components/WinnerAvatar';
+import FeaturedWinnerCard from '@/components/FeaturedWinnerCard';
 
 const BATCH_SIZE = 8;
 
@@ -18,13 +20,22 @@ export default function WinnersSection() {
       .catch(console.error);
   }, []);
 
+  const featuredWinners = useMemo(
+    () => winners.filter((w) => w.featured),
+    [winners]
+  );
+  const regularWinners = useMemo(
+    () => winners.filter((w) => !w.featured),
+    [winners]
+  );
+
   const totalBatches = useMemo(
-    () => Math.max(1, Math.ceil(winners.length / BATCH_SIZE)),
-    [winners.length]
+    () => Math.max(1, Math.ceil(regularWinners.length / BATCH_SIZE)),
+    [regularWinners.length]
   );
 
   useEffect(() => {
-    if (winners.length === 0) return;
+    if (regularWinners.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrentBatch((prev) => {
@@ -35,48 +46,80 @@ export default function WinnersSection() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [totalBatches, winners.length]);
+  }, [totalBatches, regularWinners.length]);
 
-  const visibleWinners = winners.slice(
+  const visibleWinners = regularWinners.slice(
     currentBatch * BATCH_SIZE,
     currentBatch * BATCH_SIZE + BATCH_SIZE
   );
 
-  return (
-    <section className="py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
-          {t('landing.winners_title')}
-        </h2>
+  if (winners.length === 0) return null;
 
-        <div key={fadeKey} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 fade-transition">
+  const prizeLabel = (winner) =>
+    winner.prizeKey ? t(`prizes.${winner.prizeKey}`) : winner.prize;
+
+  return (
+    <section className="py-12 md:py-16 px-4 bg-gradient-to-b from-primary-50 via-white to-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-3">
+            {t('landing.winners_title')}
+          </h2>
+        </div>
+
+        {/* Featured prize winners - unified icon, rotating names */}
+        {featuredWinners.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10">
+            {featuredWinners.map((winner, index) => (
+              <FeaturedWinnerCard
+                key={`featured-${winner.prizeKey}`}
+                prizeKey={winner.prizeKey}
+                names={winner.names}
+                index={index}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Cash winners - rotating */}
+        <div key={fadeKey} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           {visibleWinners.map((winner, index) => (
             <div
               key={`${winner.name}-${winner.phone_masked}-${index}`}
-              className="bg-white rounded-2xl p-5 shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
+              className="group relative glass-card rounded-2xl p-4 md:p-5 overflow-hidden opacity-0 animate-fade-in-up transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+              style={{ animationDelay: `${index * 80}ms` }}
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-white font-bold">
-                  🏆
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">{winner.name}</p>
-                  <p className="text-sm text-gray-500 ltr-input">{winner.phone_masked}</p>
+              {/* Decorative corner glow */}
+              <div className="absolute -top-8 -right-8 w-20 h-20 bg-accent-400/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <div className="relative flex items-center gap-3 md:gap-4">
+                <WinnerAvatar name={winner.name} size="md" float />
+                <div className="min-w-0 flex-1">
+                  <p className="font-bold text-gray-900 text-sm md:text-base truncate">{winner.name}</p>
+                  <p className="text-xs md:text-sm text-gray-500 ltr-input">{winner.phone_masked}</p>
+                  <span className="inline-block mt-1.5 px-2.5 py-1 rounded-full bg-primary-100 text-primary-700 font-bold text-xs md:text-sm truncate max-w-full">
+                    {prizeLabel(winner)}
+                  </span>
                 </div>
               </div>
-              <p className="text-primary-700 font-bold text-lg">{winner.prize}</p>
             </div>
           ))}
         </div>
 
         {totalBatches > 1 && (
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-6 md:mt-8">
             {Array.from({ length: totalBatches }).map((_, i) => (
-              <div
+              <button
                 key={i}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  i === currentBatch ? 'bg-primary-600' : 'bg-gray-300'
+                type="button"
+                onClick={() => {
+                  setCurrentBatch(i);
+                  setFadeKey((k) => k + 1);
+                }}
+                className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-colors ${
+                  i === currentBatch ? 'bg-primary-500' : 'bg-gray-300 hover:bg-gray-400'
                 }`}
+                aria-label={`Go to batch ${i + 1}`}
               />
             ))}
           </div>

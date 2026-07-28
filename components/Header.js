@@ -1,8 +1,8 @@
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const { i18n } = useTranslation();
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'الشركة';
 
   const toggleLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -14,37 +14,49 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-40 glass-header shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-bold text-lg shadow-md">
-            {companyName.charAt(0)}
-          </div>
-          <span className="font-semibold text-gray-800 hidden sm:block">{companyName}</span>
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7923244c-5be4-4f29-bbe9-96c23ebaebc9.jpeg"
+            alt="Masrvi Logo"
+            width={140}
+            height={56}
+            className="h-12 md:h-14 w-auto object-contain"
+            priority
+          />
         </div>
 
-        <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
+        <div className="flex items-center gap-3">
+          {/* Language Toggle - single icon button */}
           <button
             type="button"
-            onClick={() => toggleLanguage('ar')}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-              i18n.language === 'ar'
-                ? 'bg-white text-primary-700 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            onClick={() => toggleLanguage(i18n.language === 'ar' ? 'fr' : 'ar')}
+            aria-label={i18n.language === 'ar' ? 'Passer au francais' : 'التغيير إلى العربية'}
+            className="flex items-center gap-2 glass-button rounded-full pl-3 pr-4 py-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50 transition-all min-h-[44px]"
           >
-            🇦🇪 العربية
-          </button>
-          <button
-            type="button"
-            onClick={() => toggleLanguage('fr')}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-              i18n.language === 'fr'
-                ? 'bg-white text-primary-700 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            🇫🇷 Français
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m5 8 6 6" />
+              <path d="m4 14 6-6 2-3" />
+              <path d="M2 5h12" />
+              <path d="M7 2h1" />
+              <path d="m22 22-5-10-5 10" />
+              <path d="M14 18h6" />
+            </svg>
+            <span className="text-sm font-semibold">
+              {i18n.language === 'ar' ? 'Francais' : 'العربية'}
+            </span>
           </button>
         </div>
       </div>

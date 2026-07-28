@@ -1,6 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  devIndicators: {
+    buildActivity: false,
+    appIsrStatus: false,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   async headers() {
     return [
       {

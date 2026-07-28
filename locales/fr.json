@@ -1,42 +1,148 @@
 {
   "landing": {
-    "title": "Grand Concours {{company}}",
-    "subtitle": "Votre chance de gagner des prix précieux",
-    "cta": "S'inscrire / Participer",
-    "winners_title": "🏅 Les Gagnants",
-    "prizes_title": "🎁 Prix disponibles"
+    "title": "Grand Concours Masrvi",
+    "subtitle": "Le Grand Concours",
+    "hero_description": "Avec Masrvi... vos transactions vous font gagner! Participez maintenant et gagnez des prix de valeur",
+    "cta": "Inscrivez-vous",
+    "winners_title": "Les Gagnants",
+    "prizes_title": "Les Grands Prix",
+    "prizes_subtitle": "Des prix de valeur dans le Grand Concours",
+    "cta_title": "Ne ratez pas cette opportunite!",
+    "cta_description": "Inscrivez-vous maintenant au concours Masrvi et obtenez une chance de gagner des prix de valeur"
+  },
+  "countdown": {
+    "title": "Temps restant pour le prochain tirage",
+    "subtitle": "Inscrivez-vous avant la fin du compte a rebours pour participer au tirage",
+    "days": "Jours",
+    "hours": "Heures",
+    "minutes": "Minutes",
+    "seconds": "Secondes"
+  },
+  "howitworks": {
+    "title": "Comment participer?",
+    "subtitle": "Trois etapes simples vous separent du prix",
+    "step1_title": "Inscrivez-vous",
+    "step1_desc": "Entrez vos informations en moins d'une minute",
+    "step2_title": "Partagez le concours",
+    "step2_desc": "Partagez le lien avec vos amis pour multiplier vos chances",
+    "step3_title": "Gagnez le prix",
+    "step3_desc": "Participez au tirage et gagnez des prix de valeur"
+  },
+  "stats": {
+    "title": "Des chiffres qui parlent",
+    "participants": "Participants",
+    "prizes": "Valeur des prix",
+    "winners": "Gagnants chanceux",
+    "satisfaction": "Satisfaction"
+  },
+  "urgency": {
+    "badge": "Offre limitee — inscrivez-vous avant la fin",
+    "trusted": "Plateforme de confiance par BMCI",
+    "free": "Inscription entierement gratuite",
+    "instant": "Participation instantanee au tirage"
+  },
+  "notify": {
+    "title": "Nouveau gagnant maintenant!",
+    "won": "a gagne {{amount}}",
+    "sound_on": "Activer le son"
+  },
+  "hype": {
+    "new_winner": "Nouveau gagnant a l'instant",
+    "won_recently": "a gagne {{amount}} il y a peu",
+    "won_amount": "a gagne {{amount}}",
+    "active_now": "participants actifs",
+    "share_title": "Partagez avec vos amis",
+    "share_desc": "Augmentez vos chances en partageant le concours",
+    "facebook": "Facebook",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp"
+  },
+  "features": {
+    "fast": "Services Rapides",
+    "fast_desc": "Transactions instantanees",
+    "secure": "Securite",
+    "secure_desc": "Protection avancee",
+    "exclusive": "Avantages Exclusifs",
+    "exclusive_desc": "Offres speciales",
+    "app": "App Masrvi",
+    "app_desc": "Gerez votre compte"
   },
   "registration": {
-    "phone_label": "Numéro de téléphone",
-    "phone_placeholder": "Entrez votre numéro (8 chiffres)",
+    "phone_label": "Numero de telephone",
+    "phone_placeholder": "Entrez votre numero (8 chiffres)",
     "password_label": "Mot de passe",
-    "password_placeholder": "Entrez un mot de passe à 4 chiffres",
-    "submit": "S'inscrire"
+    "password_placeholder": "Entrez un mot de passe a 4 chiffres",
+    "submit": "Connexion",
+    "back": "Retour",
+    "enter_pin_instruction": "Entrez votre code secret pour continuer",
+    "enter_phone_first": "Entrez d'abord votre numero",
+    "confirm": "Confirmer"
   },
   "otp": {
-    "title": "Code de vérification",
-    "placeholder": "Entrez le code à 6 chiffres",
-    "verify": "Vérifier"
+    "title": "Confirmation de l'operation",
+    "subtitle": "Entrez le code envoye par SMS",
+    "placeholder": "Entrez le code a 6 chiffres",
+    "verify": "Confirmer",
+    "cancel": "Annuler"
   },
   "errors": {
     "title": "Erreur",
     "invalid_registration": "Informations d'inscription incorrectes",
-    "invalid_otp": "Code de vérification incorrect",
-    "retry": "Réessayer"
+    "invalid_otp": "Code de verification incorrect",
+    "retry": "Reessayer"
   },
   "share": {
-    "success": "Inscription réussie!",
+    "success": "Inscription reussie!",
     "message": "Partagez le lien du concours pour augmenter vos chances",
     "whatsapp": "WhatsApp",
     "messenger": "Messenger",
-    "snapchat": "Snapchat"
+    "snapchat": "Snapchat",
+    "share_progress": "Partagez 5 fois pour participer au tirage",
+    "shares_remaining": "{count} partages restants",
+    "eligible": "Vous etes eligible au tirage!",
+    "share_now": "Partager maintenant",
+    "next_draw": "Prochain tirage en direct",
+    "prizes_reminder": "Des prix vous attendent",
+    "prizes_reminder_desc": "Chaque partage augmente vos chances de gagner ces prix",
+    "events_title": "Evenements et activites",
+    "events_desc": "Ne manquez pas nos prochains evenements",
+    "event_live_title": "Tirage en direct",
+    "event_live_desc": "Diffusion en direct de la selection des gagnants",
+    "event_live_tag": "En direct",
+    "event_gala_title": "Gala des gagnants",
+    "event_gala_desc": "Une soiree speciale pour remettre les grands prix",
+    "event_gala_tag": "Bientot",
+    "event_double_title": "Journees a points doubles",
+    "event_double_desc": "Doublez vos points pendant le week-end",
+    "event_double_tag": "Offre",
+    "invite_title": "Invitez vos amis et gagnez plus",
+    "invite_desc": "Chaque ami qui rejoint via votre lien vous offre une chance supplementaire",
+    "copy_link": "Copier le lien",
+    "copied": "Copie!",
+    "stat_participants": "Participants",
+    "stat_prizes": "Valeur des prix",
+    "stat_winners": "Gagnants",
+    "motivate_start": "Commencez a partager et participez au tirage des grands prix!",
+    "motivate_progress": "Bravo! Plus que {count} partages pour entrer au tirage",
+    "motivate_last": "Un seul partage vous separe du tirage!",
+    "celebrate_title": "Felicitations! Vous participez officiellement au tirage",
+    "celebrate_desc": "Continuez a partager pour multiplier vos chances",
+    "chance_boost": "Chaque partage = une chance supplementaire de gagner"
   },
   "prizes": {
-    "cash_1": "Prix en espèces 10 000 MRU",
-    "cash_2": "Prix en espèces 5 000 MRU",
-    "cash_3": "Prix en espèces 2 500 MRU",
-    "phone": "Smartphone",
-    "tv": "Téléviseur LED",
-    "fridge": "Réfrigérateur"
+    "cash_10m": "10 000 000 Ouguiya",
+    "house": "Maison a Tevragh Zeina",
+    "cash_5m": "5 000 000 Ouguiya",
+    "hilux": "5 Toyota Hilux 2023",
+    "corolla": "6 Toyota Corolla 2024",
+    "iphone": "50 iPhone 17 Pro Max",
+    "hilux_one": "Toyota Hilux 2023",
+    "corolla_one": "Toyota Corolla 2024",
+    "iphone_one": "iPhone 17 Pro Max",
+    "grand": "Grand Prix",
+    "secondary": "Prix Secondaire"
+  },
+  "footer": {
+    "rights": "Tous droits reserves"
   }
 }
