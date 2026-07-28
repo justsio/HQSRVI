@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import BottomSheet from '@/components/BottomSheet';
 import { useContest } from '@/context/ContestContext';
-import { playSuccess, playClick } from '@/utils/sound';
+import { playSuccess, playClick, playShare, playCelebrate } from '@/utils/sound';
 
 const PRIZE_PREVIEW = [
   { key: 'house', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/0ddad2a6-2c60-41a2-a657-1da45818408a.jpeg', tier: 'grand' },
@@ -81,9 +81,15 @@ export default function SharePage() {
       : `انضم لمسابقة مصرفي واربح جوائز قيمة!\n${siteUrl}`;
 
   const trackShare = async (platform) => {
-    playClick();
     const currentPhone = testPhone || phone;
     const newCount = Math.min(shareCount + 1, REQUIRED_SHARES);
+    if (newCount >= REQUIRED_SHARES && shareCount < REQUIRED_SHARES) {
+      playCelebrate();
+    } else if (newCount > shareCount) {
+      playShare();
+    } else {
+      playClick();
+    }
     setShareCount(newCount);
     localStorage.setItem(`shareCount_${currentPhone}`, newCount.toString());
     try {
@@ -294,11 +300,24 @@ export default function SharePage() {
 
           {/* Share Progress */}
           <div className="mb-5 w-full">
-            <p className="text-sm text-gray-500 mb-3">{t('share.share_progress')}</p>
+            <p className="text-sm font-semibold text-gray-700 mb-3">{t('share.share_progress')}</p>
+
+            {/* Animated progress bar */}
+            <div className="w-full h-3 rounded-full bg-gray-100 overflow-hidden mb-3" dir="ltr">
+              <motion.div
+                className="h-full rounded-full bg-gradient-to-r from-primary-500 to-accent-500"
+                initial={{ width: 0 }}
+                animate={{ width: `${(shareCount / REQUIRED_SHARES) * 100}%` }}
+                transition={{ type: 'spring', damping: 20, stiffness: 120 }}
+              />
+            </div>
+
             <div className="flex justify-center gap-3 mb-3">
               {[...Array(REQUIRED_SHARES)].map((_, index) => (
-                <div
+                <motion.div
                   key={index}
+                  animate={index === shareCount - 1 ? { scale: [1, 1.25, 1] } : {}}
+                  transition={{ duration: 0.45 }}
                   className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                     index < shareCount ? 'bg-primary-500 text-white' : 'bg-white text-gray-400'
                   }`}
@@ -311,23 +330,58 @@ export default function SharePage() {
                   ) : (
                     <span className="text-sm font-medium">{index + 1}</span>
                   )}
-                </div>
+                </motion.div>
               ))}
             </div>
+
+            {/* Motivational message / celebration */}
             {isEligible ? (
-              <p className="text-primary-600 font-semibold text-sm">{t('share.eligible')}</p>
+              <motion.div
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', damping: 12, stiffness: 200 }}
+                className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-4 shadow-lg"
+              >
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <svg className="w-5 h-5 text-accent-400" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 5H4v2a3 3 0 003 3M17 5h3v2a3 3 0 01-3 3" />
+                  </svg>
+                  <p className="text-white font-bold text-sm">{t('share.celebrate_title')}</p>
+                </div>
+                <p className="text-white/80 text-xs">{t('share.celebrate_desc')}</p>
+              </motion.div>
             ) : (
-              <p className="text-gray-500 text-sm">{t('share.shares_remaining').replace('{count}', remainingShares)}</p>
+              <p className="text-primary-700 font-semibold text-sm text-balance">
+                {shareCount === 0
+                  ? t('share.motivate_start')
+                  : remainingShares === 1
+                    ? t('share.motivate_last')
+                    : t('share.motivate_progress').replace('{count}', remainingShares)}
+              </p>
             )}
           </div>
+
+          {/* Chance boost reminder */}
+          <p className="w-full text-xs text-gray-500 mb-3 flex items-center justify-center gap-1.5">
+            <svg className="w-3.5 h-3.5 text-accent-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
+            </svg>
+            {t('share.chance_boost')}
+          </p>
 
           {/* Share buttons */}
           <div className="w-full flex flex-col gap-3">
             <button
               type="button"
               onClick={handleWhatsApp}
-              className="w-full py-4 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold rounded-2xl transition-colors flex items-center justify-center gap-3 text-lg"
+              className="relative w-full py-4 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold rounded-2xl transition-colors flex items-center justify-center gap-3 text-lg shadow-lg"
             >
+              {!isEligible && (
+                <span className={`absolute -top-2 ${i18n.dir() === 'rtl' ? 'left-3' : 'right-3'} px-2 py-0.5 rounded-full bg-accent-500 text-white text-[10px] font-bold shadow animate-bounce`}>
+                  {t('share.share_now')}
+                </span>
+              )}
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>

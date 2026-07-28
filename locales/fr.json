@@ -121,7 +121,13 @@
     "copied": "Copie!",
     "stat_participants": "Participants",
     "stat_prizes": "Valeur des prix",
-    "stat_winners": "Gagnants"
+    "stat_winners": "Gagnants",
+    "motivate_start": "Commencez a partager et participez au tirage des grands prix!",
+    "motivate_progress": "Bravo! Plus que {count} partages pour entrer au tirage",
+    "motivate_last": "Un seul partage vous separe du tirage!",
+    "celebrate_title": "Felicitations! Vous participez officiellement au tirage",
+    "celebrate_desc": "Continuez a partager pour multiplier vos chances",
+    "chance_boost": "Chaque partage = une chance supplementaire de gagner"
   },
   "prizes": {
     "cash_10m": "10 000 000 Ouguiya",
